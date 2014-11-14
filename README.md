@@ -1,8 +1,4 @@
-plg-globalvariables
-===================
-
-## Joomla Plugin GlobalVariables (plg-globalvariables)
-
+## Joomla Plugin Global Variables (plg-globalvariables)
 
 ### Global Variables for Joomla! 3.x
 This plugin parses the content on prepare time for variables within the content elements and replaces the variables with defined values. I just wrote this plugin just because I did not find a plugin that could serve me with a easy solution like this... Hell it is way to easy but nobody out there came up with a solution like this?? So here we go.
@@ -24,7 +20,11 @@ Go to your Joomla! administration interface
 Install the .zip file with the installer
 Go to your plugin and open Global Variables from the plugin browser
 Switch it on by activating it.
+
+### Use
+
 Define some variables and place them within your articles or modules
+
 Define variables like:
 
 ```
@@ -51,4 +51,4 @@ This is my article content and this is my var!
 
 I hope you will find this tool as useful as me. If you got questions or problems, dont hesitate to contact me.
 
-Regards Lars
+Cheers Lars
