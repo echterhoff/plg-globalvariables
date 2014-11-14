@@ -1,11 +1,10 @@
 plg-globalvariables
 ===================
 
-Joomla Plugin GlobalVariables (plg-globalvariables)
+## Joomla Plugin GlobalVariables (plg-globalvariables)
 
 
-Global Variables
-for Joomla! 3.3
+### Global Variables for Joomla! 3.x
 This plugin parses the content on prepare time for variables within the content elements and replaces the variables with defined values. I just wrote this plugin just because I did not find a plugin that could serve me with a easy solution like this... Hell it is way to easy but nobody out there came up with a solution like this?? So here we go.
 
 You know the problem. You have informations like a telephone number, vat number or kind of information that is used in more than one place withing you joomla site. Instead of crawling the page for each occurance of this value it is way more convinient to change this information just in one place. So, dont look further, this plugin is the answer. Just create a variable in the plugin interface and place it within your content. The plugin does the rest.
@@ -18,9 +17,9 @@ You dont need to close your definition by a semicolon. Just quote the variable c
 
 To place a variable, you might want to use the more common curly bracket syntax. Just wrap your variable name with {global}{/global}.
 
-In a nut shell
+### Installation
 
-Download the plugin from here. http://code.google.com/p/plg-globalvariables/downloads/detail?name=plg_globalvariables_j2.5_v1.1.zip
+Download the plugin from here. https://github.com/echterhoff/plg-globalvariables/archive/master.zip
 Go to your Joomla! administration interface
 Install the .zip file with the installer
 Go to your plugin and open Global Variables from the plugin browser
@@ -28,20 +27,28 @@ Switch it on by activating it.
 Define some variables and place them within your articles or modules
 Define variables like:
 
-myvariable="this is my var";
-since v1.1
-
+```
 myvariable="this is my var"
+```
+
 Use them within your content with:
 
-This is my article content and var_myvariable()!
+```html
+<p>Blahblah</p>
+<p>This is my article content and var_myvariable()!</p>
+```
 
-since v1.1: {global}myvariable{/global}
+since v1.1:
+
+```html
+<p>Blahblah</p>
+<p>This is my article content and {global}myvariable{/global}!</p>
+```
 
 This will result in:
 
 This is my article content and this is my var!
 
-I hope you will find this tool as useful as me. If you got questions or problems, dont hesitate to use the bug tracker or just contact me.
+I hope you will find this tool as useful as me. If you got questions or problems, dont hesitate to contact me.
 
 Regards Lars
