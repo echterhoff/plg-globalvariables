@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @version  1.0
+ * @version  1.4
  * @Project  GLOABL VARIABLES
  * @author   Lars Echterhoff
  * @package
- * @copyright Copyright (C) 2012 Echterhoff Medientechnik
+ * @copyright Copyright (C) 2014 Echterhoff Medientechnik
  * @license  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2
  * @description This plugin gives you the possibility to decrease information fragmentation. Store often used information as variable and reuse it in what ever content within joomla you like.
  */
@@ -89,16 +89,22 @@ class plgContentGlobalVariables extends JPlugin
 
     private function parse_variables_article_vault($string)
     {
-        $variable = array();
-        $string = strip_tags($string);
 //        echo "<pre>";
+//        echo "Step1:\n";
+//        print_r(htmlentities($string));
+//        echo "</pre>";
+        $variable = array();
+        $plain = strip_tags($string);
+//        echo "<pre>";
+//        echo "Step2:\n";
 //        print_r($string);
 //        echo "</pre>";
-        $breaks_rx = array(' ', '\r\n', '<br', '</p');
-        $break_rx = "(?:" . implode("|", $breaks_rx) . ")";
-        preg_match_all("#[ \b\r\n]?([a-z][^= ]*)[ \r\n]*?=[ \r\n]*?([\"'])([^\\2]*?)\\2#is", $string, $match, PREG_SET_ORDER);
+//        $breaks_rx = array(' ', '\r\n', '<br', '</p');
+//        $break_rx = "(?:" . implode("|", $breaks_rx) . ")";
+        $match = array();
+        preg_match_all("#(?:^|[\b\r\n])([a-z][^= ]*)[ \r\n]*?=[ \r\n]*?([\"'])([^\\2]*?)\\2;?#is", $plain, $match, PREG_SET_ORDER);
 //		echo "<pre>";
-//    var_dump($string);
+//        echo "Step3:\n";
 //		print_r($match);
 //		echo "</pre>";
         if ($match) {
@@ -118,8 +124,9 @@ class plgContentGlobalVariables extends JPlugin
     {
         //echo $string;
         $variables = @parse_ini_string($string);
-        if ($variables === false)
+        if ($variables === false) {
             throw new Exception("Error while parsing variable definition. Please review your variable definition for syntax problems!");
+        }
         return $variables;
     }
 
@@ -130,8 +137,9 @@ class plgContentGlobalVariables extends JPlugin
      */
     function start_replace(&$string)
     {
-        if (!$this->variables)
+        if (!$this->variables) {
             $this->load_variables();
+        }
         $looped = 0;
         $match = array();
         $replaceValue = "";
@@ -141,8 +149,9 @@ class plgContentGlobalVariables extends JPlugin
             $matchString = $match[0];
             $replaceValue = $this->get_variable_by_match($match);
             $string = str_replace($matchString, $replaceValue, $string);
-            if (($looped++) > 500)
+            if (($looped++) > 500) {
                 break;
+            }
         }
         return $string;
     }
@@ -158,10 +167,8 @@ class plgContentGlobalVariables extends JPlugin
         switch ($identified->type) {
             case "legacy":
                 return $this->lookup_variable_vault($identified->key);
-                break;
             case "curly":
                 return $this->lookup_variable_vault($identified->key);
-                break;
         }
     }
 
@@ -209,6 +216,7 @@ class plgContentGlobalVariables extends JPlugin
         $model = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
         $appParams = JFactory::getApplication()->getParams();
         $model->setState('params', $appParams);
+
         $item = $model->getItem($id);
         return ($item->fulltext ? $item->fulltext : $item->introtext);
     }
@@ -220,43 +228,3 @@ class plgContentGlobalVariables extends JPlugin
     }
 
 }
-
-/* Test things */
-/*
-class JPlugin{
-	function __construct($foo1, $foo1){
-
-		}
-}
-
-class JPluginHelper {
-	static function getPlugin($type, $name){
-		return new $name;
-	}
-}
-
-class JText{
-	static function _($string){
-		return $string;
-	}
-}
-
-class JFactory{
-	static function getApplication(){
-		$stdClass =  new stdClass();
-		$stdClass->enqueueMessage = function($string){return $string;};
-		return $stdClass;
-	}
-}
-
-function jimport($item){
-	return $item;
-}
-
-function defined($item){
-	return $item;
-}
-
-$test = new plgContentGlobalVariables();
-$test->onContentPrepare('','Actual test data','','');
-*/
