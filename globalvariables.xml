@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.7" type="plugin" group="content">
+	<name>Content - Global Variables</name>
+	<author>Lars Echterhoff</author>
+	<creationDate>Aug 2012</creationDate>
+	<copyright>Copyright (C) 2012 Echterhoff Medientechnik</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>info@echterhoff.it</authorEmail>
+	<authorUrl>www.echterhoff-medientechnik.de</authorUrl>
+	<version>1.1.0</version>
+	<description>
+		<![CDATA[
+		<p>This plugin gives you the possibility to define often reused text fragments and reuse it in every content as variable.<p/>
+		<p>Defining variables is quite simple. I assume you found this plugin while searching for globals or variables or kind of. So defining variables is as easy as writing an ini-File. Give a variable followed by a equal sign (=) and the value. Close the definition with a semicolo (;). If you would like to define a more complex value, surround the value with ("). Thats it.</p>
+		<p>In a nut shell</p>
+		<p>Define variables here like:</p>
+		<h3>myvariable="this is my var"</h3>
+		<p>Use them within your content with:</p>
+		<h3>This is my article content and {global}myvariable{/global}!</h3>
+		<p>This will result in:</p>
+		<h3>This is my article content and <i>this is my var</i>!</h3>
+		<p>Since version 1.1 you are able to give an article id to load the variables from.</p>
+		]]>
+	</description>
+	<files>
+		<filename>index.html</filename>
+		<filename plugin="globalvariables">globalvariables.php</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="params" label="Setup">
+				<field 
+						name="variabledefinition"
+						type="textarea"
+				 default=";test='My First Variable';"
+					 label="Give some variables"
+		 description="Defining variables is quite simple. I assume you found this plugin while searching for globals or variables or kind of. So defining variables is as easy as writing an ini-File. Give a variable followed by a equal sign (=) and the value. Close the definition with a semicolo (;). If you would like to define a more complex value, surround the value with ('). Thats it."
+						rows="20"
+						cols="35"
+					 width="100%"
+					filter="raw"/>
+				<field 
+						name="variablesource"
+						type="text"
+				 default=""
+					 label="Article ID"
+		 description="Give an article ID that holds the variable definition"
+					filter="raw"/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
