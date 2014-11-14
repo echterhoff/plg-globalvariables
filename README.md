@@ -16,10 +16,11 @@ To place a variable, you might want to use the more common curly bracket syntax.
 ### Installation
 
 Download the plugin from here. https://github.com/echterhoff/plg-globalvariables/archive/master.zip
-Go to your Joomla! administration interface
-Install the .zip file with the installer
-Go to your plugin and open Global Variables from the plugin browser
-Switch it on by activating it.
+1. Go to your Joomla! administration interface
+2. Install the .zip file with the installer
+3. Go to your plugin and open Global Variables from the plugin browser
+4. Switch it on by activating it.
+5. Open the plugin configuration
 
 ### Use
 
