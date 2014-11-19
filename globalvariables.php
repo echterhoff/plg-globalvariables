@@ -146,12 +146,16 @@ class plgContentGlobalVariables extends JPlugin
         $match = array();
 
         $strEsc = preg_quote("'\"");
-        preg_match_all('#' . $var_declaration . '([' . $strEsc . '])([^\\' . $rx_data_quote . ']*?)\\' . $rx_data_quote . ';?#is', $string, $match, PREG_SET_ORDER);
+//        $rx_parse_var_str = '#' . $var_declaration . '([' . $strEsc . '])([^\\' . $rx_data_quote . ']*?)\\' . $rx_data_quote . ';?#is';
+        $rx_parse_var_str = '#' . $var_declaration . '([' . $strEsc . '])((?:<[^>]*>|\\\\\\'.$rx_data_quote.'|[^\\' . $rx_data_quote . '])*?)\\' . $rx_data_quote . ';?#is';
+        dd("rx_parse_var_str",$rx_parse_var_str);
+        preg_match_all($rx_parse_var_str, $string, $match, PREG_SET_ORDER);
 
         dd("Step 3:", $match);
         if ($match) {
             foreach ($match as $set) {
-                $variable[$set[$rx_data_varname]] = html_entity_decode($set[$rx_data_content]);
+                $variable[$set[$rx_data_varname]] = stripcslashes(html_entity_decode($set[$rx_data_content]));
+                dd($set[$rx_data_varname], stripcslashes(html_entity_decode($set[$rx_data_content])));
             }
         }
         return $variable;
