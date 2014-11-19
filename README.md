@@ -1,5 +1,9 @@
 ## Joomla Plugin Global Variables (plg-globalvariables)
 
+### Latest changes
+ 1. Bug fixed the parser for better HTML tag handling of data defined with WYSIWYG editor.
+ 2. Introduced heredoc syntax. Referto: http://php.net/manual/de/language.types.string.php#language.types.string.syntax.heredoc
+
 ### Global Variables for Joomla! 3.x
 This plugin parses the content on prepare time for variables within the content elements and replaces the variables with defined values. I just wrote this plugin just because I did not find a plugin that could serve me with a easy solution like this... Hell it is way to easy but nobody out there came up with a solution like this?? So here we go.
 
