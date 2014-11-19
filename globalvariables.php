@@ -13,6 +13,27 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
+define("GLOBAL_VARS_DEV",false);
+
+if (!function_exists("dd")) {
+
+    function dd()
+    {
+        if(!GLOBAL_VARS_DEV) return;
+        $args = func_get_args();
+        echo "<pre>";
+        foreach ($args as $arg) {
+            if (is_array($arg) || is_object($arg)) {
+                print_r($arg);
+            } else {
+                echo $arg . "\n";
+            }
+        }
+        echo "</pre>";
+    }
+
+}
+
 class plgContentGlobalVariables extends JPlugin
 {
 
@@ -89,27 +110,48 @@ class plgContentGlobalVariables extends JPlugin
 
     private function parse_variables_article_vault($string)
     {
-//        echo "<pre>";
-//        echo "Step1:\n";
-//        print_r(htmlentities($string));
-//        echo "</pre>";
+        dd("Step 1:", htmlentities($string));
+
+        $var_declaration = '(^|<[a-z]*>[\r\n]</[a-z]*>|[>\b\r\n] *?)([a-z][^= ]*)[ \n]*?=[ \n]*?';
+
         $variable = array();
-        $plain = strip_tags($string);
-//        echo "<pre>";
-//        echo "Step2:\n";
-//        print_r($string);
-//        echo "</pre>";
-//        $breaks_rx = array(' ', '\r\n', '<br', '</p');
-//        $break_rx = "(?:" . implode("|", $breaks_rx) . ")";
+        $heredoc_tag = "<<<";
+        $heredoc_tag = implode("|", array(
+            preg_quote($heredoc_tag),
+            preg_quote(htmlspecialchars($heredoc_tag))
+                )
+        );
+
+        $rx_data_full = 0;
+        $rx_data_first_esc_character = 1;
+        $rx_data_varname = 2;
+        $rx_data_quote = 3;
+        $rx_data_content = 4;
+        $rx_content = 0;
+        $rx_offset = 1;
+
+        $heredoc_rx = '#' . $var_declaration . '(?:' . $heredoc_tag . ')([^ \r\n]*)(?:[ \r\n]|</?[a-z]*/?>(?:[\r\n]</[a-z]*>)?)(.*?)(?:</?[a-z]*/?>)*?\\' . $rx_data_quote . ';*?#is';
+        $heredocs = preg_match_all($heredoc_rx, $string, $matches, PREG_OFFSET_CAPTURE + PREG_SET_ORDER);
+        if ($heredocs) {
+            foreach ($matches as $match) {
+                $escaped_heredoc_block = htmlspecialchars($match[$rx_data_content][$rx_content]);
+                dd("Step 2a (Heredoc):", $match);
+                $string = str_replace($match[$rx_data_full][$rx_content], $match[$rx_data_first_esc_character][$rx_content] . $match[$rx_data_varname][$rx_content] . '="' . $escaped_heredoc_block . '";', $string);
+            }
+        } else {
+            dd("Step 2a (Heredoc):", "Nothing to process");
+        }
+
+        dd("Step 2b:", $string);
         $match = array();
-        preg_match_all("#(?:^|[\b\r\n])([a-z][^= ]*)[ \r\n]*?=[ \r\n]*?([\"'])([^\\2]*?)\\2;?#is", $plain, $match, PREG_SET_ORDER);
-//		echo "<pre>";
-//        echo "Step3:\n";
-//		print_r($match);
-//		echo "</pre>";
+
+        $strEsc = preg_quote("'\"");
+        preg_match_all('#' . $var_declaration . '([' . $strEsc . '])([^\\' . $rx_data_quote . ']*?)\\' . $rx_data_quote . ';?#is', $string, $match, PREG_SET_ORDER);
+
+        dd("Step 3:", $match);
         if ($match) {
             foreach ($match as $set) {
-                $variable[$set[1]] = $set[3];
+                $variable[$set[$rx_data_varname]] = html_entity_decode($set[$rx_data_content]);
             }
         }
         return $variable;
@@ -122,7 +164,6 @@ class plgContentGlobalVariables extends JPlugin
      */
     private function parse_variable_ini_vault($string)
     {
-        //echo $string;
         $variables = @parse_ini_string($string);
         if ($variables === false) {
             throw new Exception("Error while parsing variable definition. Please review your variable definition for syntax problems!");
