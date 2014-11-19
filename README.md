@@ -61,4 +61,4 @@ I hope you will find this tool as useful as me. If you got questions or problems
 Cheers Lars
 
 
-[logo]: https://raw.githubusercontent.com/echterhoff/plg-globalvariables/assets/icon.png "Joomla! Plugin - Global Variables"
+[logo]: https://raw.githubusercontent.com/echterhoff/plg-globalvariables/assets/icon.png  =250x "Joomla! Plugin - Global Variables"
