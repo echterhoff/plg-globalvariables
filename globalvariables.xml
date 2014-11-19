@@ -41,4 +41,7 @@
 			</fieldset>
 		</fields>
 	</config>
+    <updateservers>
+            <server type="extension" name="globalvariables" priority="1">https://github.com/echterhoff/plg-globalvariables/raw/master/globalvariables_update.xml</server>
+    </updateservers>
 </extension>
