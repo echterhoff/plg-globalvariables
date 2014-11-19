@@ -1,5 +1,6 @@
-## Joomla Plugin Global Variables (plg-globalvariables)
+## Joomla Plugin Global Variables  (plg-globalvariables)
 
+<img src="https://raw.githubusercontent.com/echterhoff/plg-globalvariables/assets/icon.png" width="150" align="right">
 ### Latest changes
  1. Bug fixed the parser for better HTML tag handling of data defined with WYSIWYG editor.
  2. Introduced heredoc syntax. Referto: http://php.net/manual/de/language.types.string.php#language.types.string.syntax.heredoc
@@ -57,3 +58,6 @@ This is my article content and this is my var!
 I hope you will find this tool as useful as me. If you got questions or problems, dont hesitate to contact me.
 
 Cheers Lars
+
+
+[logo]: https://raw.githubusercontent.com/echterhoff/plg-globalvariables/assets/icon.png "Joomla! Plugin - Global Variables"
