@@ -21,7 +21,7 @@
         <folder>languages</folder>
     </files>
     <languages>
-        <language tag="en-GB">languages/en-GB.plg_content_globalvariables.sys.ini</language>
+        <language tag="en-GB">languages/en-GB/en-GB.plg_content_globalvariables.ini</language>
     </languages>
     <config>
         <fields name="params">
