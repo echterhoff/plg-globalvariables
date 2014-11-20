@@ -12,9 +12,11 @@
 		<![CDATA[
         <p>Please check your plugin page if this plugin is activated: <a href="/administrator/index.php?option=com_plugins&view=plugins&filter_search=Global%20Variables">Click here</a></p>
 		<p>This plugin gives you the possibility to define often reused text fragments and reuse it in every content as variable.<p/>
-        <p>Further information on: <a href="https://github.com/echterhoff/plg-globalvariables">https://github.com/echterhoff/plg-globalvariables</a></p>
+        <p>Further information on: <a href="https://github.com/echterhoff/plg-globalvariables" target="_new">https://github.com/echterhoff/plg-globalvariables <span class="icon icon-out-2"></span></a></p>
 		]]>
     </description>
+<!--        <p><a href="#attrib-sources" data-toggle="tab" class="btn btn-large btn-success"><span class="icon icon-puzzle large"></span>&nbsp; Configure Sources</a></p>
+        <p><a href="#attrib-settings" data-toggle="tab" class="btn btn-large"><span class="icon icon-options large"></span>&nbsp; Variable Settings</a></p>-->
     <files>
         <filename>index.html</filename>
         <filename plugin="globalvariables">globalvariables.php</filename>
@@ -25,50 +27,140 @@
         <language tag="en-GB">language/en-GB/en-GB.plg_content_globalvariables.sys.ini</language>
     </languages>
     <config>
-        <fields name="params">
-            <fieldset name="params" label="Variable Source">
+        <fields name="params"
+                class="controls controls-row"
+        >
+            <fieldset 
+                name="sources"
+                label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_TAB"
+            >
+
+
+
                 <field
                     name="note_variable_source"
                     type="note"
-                    label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_LABEL"
-                    description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_DESC"
+                    class="span6"
+                    label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_NOTE_LABEL"
+                    description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_NOTE_DESC"
                 />
-                <field 
+                <field
                     name="variablesource"
                     type="sql"
+                    class="span5"
                     default="0"
-                    label="Select a default article"
+                    label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_LABEL"
                     query="SELECT id, title as variablesource FROM #__content"
                     key_field="id">
-                    <option value="0">- Select an article -</option>
+                    <option value="0">JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_DEFAULT_LABEL</option>
                 </field>
                 <field
-                    name="sourceconfiguration"
-                    type="textarea"
-                    default="1=default"
-                    label="Specify your variable sources"
-                    description=""
-                    rows="10"
-                    cols="70"
-                    width="100%"
-                    filter="raw"/>
-                <!--                <field
-                name="variabledefinition"
-                type="textarea"
-                default=";test='My First Variable';"
-                label="Give some variables"
-                description="Defining variables is quite simple. I assume you found this plugin while searching for globals or variables or kind of. So defining variables is as easy as writing an ini-File. Give a variable followed by a equal sign (=) and the value. Close the definition with a semicolo (;). If you would like to define a more complex value, surround the value with ('). Thats it."
-                rows="20"
-                cols="35"
-                width="100%"
-                filter="raw"/>-->
-                <!--                <field
-                name="variablesource"
-                type="text"
-                default=""
-                label="Article ID"
-                description="Give an article ID that holds the variable definition"
-                filter="raw"/>-->
+                    name="note_bug_in_repeatable"
+                    type="note"
+                    class="span6 alert alert-error"
+                    label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_BUG_LABEL"
+                    description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_BUG_DESC"
+                />
+                <field name="direct_variable_input"
+                       type="Repeatable"
+                       icon="pencil"
+                       maximum="999"
+                       select="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_BUTTON_LABEL"
+                       label="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_LABEL"
+                       description="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_DESC"
+                       default="{'varname':['varname_text','varname_html'],'varvalue':['Simple snippet','Simple \u003cb\u003eHTML\u003c/b\u003e snippet']}">
+                    <fields name="params">
+                        <fieldset hidden="true"
+                                  name="direct_variable_input_modal"
+                                  repeat="true">
+                            <field name="varname"
+                                   label="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_VARNAME_LABEL"
+                                   size="30"
+                                   type="text" />
+                            <field name="varvalue"
+                                   label="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_VARVALUE_LABEL"
+                                   size="1024"
+                                   type="textarea" />
+                        </fieldset>
+                    </fields>
+                </field>
+                <field name="sourceconfiguration"
+                       type="Repeatable"
+                       icon="pencil"
+                       maximum="999"
+                       select="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_BUTTON_LABEL"
+                       label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_LABEL"
+                       description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_DESC"
+                    
+                       default='{"sourceactive":[["0"]],"sourcealias":["dropbox"],"sourceurl":["https://dl.dropboxusercontent.com/u/134085/globalvariables/testvariables.txt"]}'>
+                    <fields name="params">
+                        <fieldset hidden="true"
+                                  name="sourceconfiguration_modal"
+                                  repeat="true">
+                            <field name="sourceactive" type="radio"
+                                   default="1"
+                                   label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEACTIVE_LABEL"
+                                  description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEACTIVE_DESC">
+                                <option value="0">Active</option>
+                                <option value="1">Disabled</option>
+                            </field>
+                            <field name="sourcealias"
+                                   label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEALIAS_LABEL"
+                                   description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEALIAS_DESC"
+                                   size="30"
+                                   type="text" />
+                            <field name="sourceurl"
+                                   label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEURL_LABEL"
+                                   description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEURL_DESC"
+                                   size="1024"
+                                   type="text" />
+                        </fieldset>
+                    </fields>
+                </field>
+
+            </fieldset>
+            <fieldset name="variable_setting" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SETTINGS_TAB">
+                <field
+                    name="note_variable_source"
+                    type="note"
+                    class="span6"
+                    label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SETTINGS_NOTE_LABEL"
+                    description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SETTINGS_NOTE_DESC"
+                />
+                <field
+                    name="note_variable_source_style"
+                    type="note"
+                    class="span6"
+                    label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_LABEL"
+                    description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_DESC"
+                />
+                <field name="variable_style_legacy" 
+                       type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_LEGACY"
+                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_LEGACY_DESC" value="legacy" />
+                <field name="variable_style_curly" default="1"
+                       type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_CURLY"
+                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_CURLY_DESC" value="curly" />
+                <field name="variable_style_varescaped" default="1"
+                       type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_VARESCAPED"
+                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_VARESCAPED_DESC" value="varescaped" />
+                <field name="variable_style_doublecurly" default="1"
+                       type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_DOUBLECURLY"
+                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_DOUBLECURLY_DESC" value="doublecurly" />
+                <field
+                    name="note_variable_replace_behavior_headline"
+                    type="note"
+                    class="span6"
+                    label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_REPLACE_BEHAVIOR_LABEL"
+                />
+                <field
+                    name="note_variable_replace_behavior" class="span6 alert alert-error"
+                    type="note"
+                    description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_REPLACE_BEHAVIOR_DESC"
+                />
+                <field name="replace_undefined_variables" default="0"
+                       type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_REPLACE_UNDEFINED_VARIABLES_LABEL"
+                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_REPLACE_UNDEFINED_VARIABLES_DESC" value="1" />
+
             </fieldset>
         </fields>
     </config>
