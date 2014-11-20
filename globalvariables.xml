@@ -18,7 +18,7 @@
     <files>
         <filename>index.html</filename>
         <filename plugin="globalvariables">globalvariables.php</filename>
-        <!--<folder>languages</folder>-->
+        <folder>languages</folder>
     </files>
     <languages>
         <language tag="en-GB">languages/en-GB.plg_content_globalvariables.sys.ini</language>
