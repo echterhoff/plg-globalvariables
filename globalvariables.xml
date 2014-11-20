@@ -18,10 +18,10 @@
     <files>
         <filename>index.html</filename>
         <filename plugin="globalvariables">globalvariables.php</filename>
-        <folder>languages</folder>
+        <!--<folder>languages</folder>-->
     </files>
-    <languages folder="languages">
-            <language tag="en-GB">en-GB.plg_content_globalvariables.sys.ini</language>
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_content_globalvariables.sys.ini</language>
     </languages>
     <config>
         <fields name="params">
@@ -35,11 +35,11 @@
                 <field 
                     name="variablesource"
                     type="sql"
-                    default="10"
+                    default="0"
                     label="Select a default article"
                     query="SELECT id, title as variablesource FROM #__content"
                     key_field="id">
-                    <option value="">- Select an article -</option>
+                    <option value="0">- Select an article -</option>
                 </field>
                 <field
                     name="sourceconfiguration"
@@ -51,16 +51,16 @@
                     cols="70"
                     width="100%"
                     filter="raw"/>
-<!--                <field
-                    name="variabledefinition"
-                    type="textarea"
-                    default=";test='My First Variable';"
-                    label="Give some variables"
-                    description="Defining variables is quite simple. I assume you found this plugin while searching for globals or variables or kind of. So defining variables is as easy as writing an ini-File. Give a variable followed by a equal sign (=) and the value. Close the definition with a semicolo (;). If you would like to define a more complex value, surround the value with ('). Thats it."
-                    rows="20"
-                    cols="35"
-                    width="100%"
-                    filter="raw"/>-->
+                <!--                <field
+                name="variabledefinition"
+                type="textarea"
+                default=";test='My First Variable';"
+                label="Give some variables"
+                description="Defining variables is quite simple. I assume you found this plugin while searching for globals or variables or kind of. So defining variables is as easy as writing an ini-File. Give a variable followed by a equal sign (=) and the value. Close the definition with a semicolo (;). If you would like to define a more complex value, surround the value with ('). Thats it."
+                rows="20"
+                cols="35"
+                width="100%"
+                filter="raw"/>-->
                 <!--                <field
                 name="variablesource"
                 type="text"
