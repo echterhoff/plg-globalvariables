@@ -13,20 +13,21 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
-define("GLOBAL_VARS_DEV",false);
+define("GLOBAL_VARS_DEV", true);
 
 if (!function_exists("dd")) {
 
     function dd()
     {
-        if(!GLOBAL_VARS_DEV) return;
+        if (!GLOBAL_VARS_DEV)
+            return;
         $args = func_get_args();
         echo "<pre>";
         foreach ($args as $arg) {
             if (is_array($arg) || is_object($arg)) {
                 print_r($arg);
             } else {
-                echo $arg . "\n";
+                var_dump($arg);
             }
         }
         echo "</pre>";
@@ -69,7 +70,7 @@ class plgContentGlobalVariables extends JPlugin
     }
 
     /**
-     * Starts the replaceing for a string or an array (array is not done yet)
+     * Starts the replacing for a string or an array (array is not done yet)
      * @param string/array $data
      * @return inputtype $data
      */
@@ -78,7 +79,10 @@ class plgContentGlobalVariables extends JPlugin
         try {
             jimport('joomla.document.html.html');
             if (is_array($data) || is_object($data)) {
-                array_walk($data, array($this, 'replace_array'));
+//                array_walk($data, array($this, 'replace_array'));
+                $data->title = $this->start_replace($data->title);
+                $data->introtext = $this->start_replace($data->introtext);
+                $data->text = $this->start_replace($data->text);
             } elseif (is_string($data)) {
                 $data = $this->start_replace($data);
             }
@@ -147,15 +151,15 @@ class plgContentGlobalVariables extends JPlugin
 
         $strEsc = preg_quote("'\"");
 //        $rx_parse_var_str = '#' . $var_declaration . '([' . $strEsc . '])([^\\' . $rx_data_quote . ']*?)\\' . $rx_data_quote . ';?#is';
-        $rx_parse_var_str = '#' . $var_declaration . '([' . $strEsc . '])((?:<[^>]*>|\\\\\\'.$rx_data_quote.'|[^\\' . $rx_data_quote . '])*?)\\' . $rx_data_quote . ';?#is';
-        dd("rx_parse_var_str",$rx_parse_var_str);
+        $rx_parse_var_str = '#' . $var_declaration . '([' . $strEsc . '])((?:<[^>]*>|\\\\\\' . $rx_data_quote . '|[^\\' . $rx_data_quote . '])*?)\\' . $rx_data_quote . ';?#is';
+//        dd("rx_parse_var_str", $rx_parse_var_str);
         preg_match_all($rx_parse_var_str, $string, $match, PREG_SET_ORDER);
 
         dd("Step 3:", $match);
         if ($match) {
             foreach ($match as $set) {
                 $variable[$set[$rx_data_varname]] = stripcslashes(html_entity_decode($set[$rx_data_content]));
-                dd($set[$rx_data_varname], stripcslashes(html_entity_decode($set[$rx_data_content])));
+//                dd($set[$rx_data_varname], stripcslashes(html_entity_decode($set[$rx_data_content])));
             }
         }
         return $variable;
@@ -187,17 +191,38 @@ class plgContentGlobalVariables extends JPlugin
         }
         $looped = 0;
         $match = array();
-        $replaceValue = "";
+        $replaceValue = null;
+        $not_set_variables = array();
 
-        while (preg_match("#var_([0-9a-z_.+-]+?)\(\)|\{(global|vartext)\}(.*?)\{/(?:\\2)\}#is", $string, $match)) {
-            //print_r($match);
-            $matchString = $match[0];
-            $replaceValue = $this->get_variable_by_match($match);
-            $string = str_replace($matchString, $replaceValue, $string);
-            if (($looped++) > 500) {
-                break;
+        $varmatch_rx = '#(var_)([0-9a-z_.+-]+?)\(\)|\{(global|vartext)\}(.*?)\{/(?:\\3)\}|([$_]{1})([0-9a-z_.+-]+)|\{\{(.*)\}\}#is';
+        $replace = array();
+
+        for ($recurse = 0; $recurse <= 10; $recurse++) {
+            $replace['offset'] = 0;
+            while (preg_match($varmatch_rx, $string, $matches, PREG_OFFSET_CAPTURE, $replace['offset'])) {
+                $match = array();
+                foreach ($matches as $id => $matched) {
+                    $match[$id] = $matched[0];
+                }
+
+                $replaceValue = $this->get_variable_by_match($match);
+                if ($replaceValue !== null) {
+                    $replace['offset'] = $matches[0][1];
+                    $replace['length'] = strlen($matches[0][0]);
+                    $replace['value'] = $replaceValue->value;
+                    $string = substr_replace($string, $replace['value'], $replace['offset'], $replace['length']);
+                    $replace['offset']+=strlen($replaceValue->value);
+                } else {
+                    $replace['offset']+=$replace['length'];
+                    $not_set_variables[$matches[0][0]] = $matches;
+                }
+
+                if (($looped++) > 500) {
+                    break;
+                }
             }
         }
+
         return $string;
     }
 
@@ -211,10 +236,17 @@ class plgContentGlobalVariables extends JPlugin
         $identified = $this->identify_match_type($match);
         switch ($identified->type) {
             case "legacy":
-                return $this->lookup_variable_vault($identified->key);
             case "curly":
-                return $this->lookup_variable_vault($identified->key);
+            case "varescaped":
+            case "doublecurly":
+                $identified->value = $this->lookup_variable_vault($identified->key);
+                if ($identified->value === null) {
+                    return null;
+                } else {
+                    return $identified;
+                }
         }
+        return null;
     }
 
     /**
@@ -224,10 +256,11 @@ class plgContentGlobalVariables extends JPlugin
      */
     private function lookup_variable_vault(&$variable_key)
     {
+//        dd($this->variables);
         if (isset($this->variables[$variable_key])) {
             return $this->variables[$variable_key];
         }
-        return false;
+        return null;
     }
 
     /**
@@ -238,18 +271,28 @@ class plgContentGlobalVariables extends JPlugin
     private function identify_match_type(&$match)
     {
         $identified = new stdClass();
+        $identified->full_key = $match[0];
         $identified->type = false;
         $identified->key = false;
         $identified->marker = false;
+        $identified->value = null;
 
-        if ($match[1]) {
+        if ($match[1] !== "" && $match[2] !== "") {
             $identified->type = 'legacy';
-            $identified->key = $match[1];
-            $identified->marker = "";
-        } elseif ($match[2] && $match[3]) {
+            $identified->key = $match[2];
+            $identified->marker = $match[1];
+        } elseif ($match[3] !== "" && $match[4] !== "") {
             $identified->type = 'curly';
-            $identified->key = $match[3];
-            $identified->marker = $match[2];
+            $identified->key = $match[4];
+            $identified->marker = $match[3];
+        } elseif ($match[5] !== "" && $match[6] !== "") {
+            $identified->type = 'varescaped';
+            $identified->key = $match[6];
+            $identified->marker = $match[5];
+        } elseif ($match[7] !== "") {
+            $identified->type = 'doublecurly';
+            $identified->key = $match[7];
+            $identified->marker = "{{}}";
         }
 
         return $identified;

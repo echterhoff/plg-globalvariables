@@ -1,48 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="1.7" type="plugin" group="content">
-	<name>Content - Global Variables</name>
-	<author>Lars Echterhoff</author>
-	<creationDate>Nov 2014</creationDate>
-	<copyright>Copyright (C) 2012 Echterhoff Medientechnik</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authorEmail>info@echterhoff.it</authorEmail>
-	<authorUrl>www.echterhoff-medientechnik.de</authorUrl>
-	<version>1.4.0dev</version>
-	<description>
+    <name>Content - Global Variables</name>
+    <author>Lars Echterhoff</author>
+    <creationDate>Nov 2014</creationDate>
+    <copyright>Copyright (C) 2012 Echterhoff Medientechnik</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>info@echterhoff.it</authorEmail>
+    <authorUrl>www.echterhoff-medientechnik.de</authorUrl>
+    <version>1.4.0dev</version>
+    <description>
 		<![CDATA[
         <p>Please check your plugin page if this plugin is activated: <a href="/administrator/index.php?option=com_plugins&view=plugins&filter_search=Global%20Variables">Click here</a></p>
 		<p>This plugin gives you the possibility to define often reused text fragments and reuse it in every content as variable.<p/>
         <p>Further information on: <a href="https://github.com/echterhoff/plg-globalvariables">https://github.com/echterhoff/plg-globalvariables</a></p>
 		]]>
-	</description>
-	<files>
-		<filename>index.html</filename>
-		<filename plugin="globalvariables">globalvariables.php</filename>
-	</files>
-	<config>
-		<fields name="params">
-			<fieldset name="params" label="Setup">
-				<field 
-						name="variabledefinition"
-						type="textarea"
-				 default=";test='My First Variable';"
-					 label="Give some variables"
-		 description="Defining variables is quite simple. I assume you found this plugin while searching for globals or variables or kind of. So defining variables is as easy as writing an ini-File. Give a variable followed by a equal sign (=) and the value. Close the definition with a semicolo (;). If you would like to define a more complex value, surround the value with ('). Thats it."
-						rows="20"
-						cols="35"
-					 width="100%"
-					filter="raw"/>
-				<field 
-						name="variablesource"
-						type="text"
-				 default=""
-					 label="Article ID"
-		 description="Give an article ID that holds the variable definition"
-					filter="raw"/>
-			</fieldset>
-		</fields>
-	</config>
+    </description>
+    <fileset>
+        <filename>index.html</filename>
+        <filename plugin="globalvariables">globalvariables.php</filename>
+        <files folder="languages" target="language/en-GB">
+          <filename>en-GB.plg_globalvariables.sys.ini</filename>
+        </files>
+    </fileset>
+    <config>
+        <fields name="params">
+            <fieldset name="params" label="Variable Source">
+                <field
+                    name="note_variable_source"
+                    type="note"
+                    label="PARAM_VARIABLE_SOURCE_LABEL"
+                    description="PARAM_VARIABLE_SOURCE_DESC"
+                />
+                <field 
+                    name="variablesource"
+                    type="sql"
+                    default="10"
+                    label="Select an default article"
+                    query="SELECT id, title as variablesource FROM #__content"
+                    key_field="id">
+                    <option value="">- Select an article -</option>
+                </field>
+                <field
+                    name="sourceconfiguration"
+                    type="textarea"
+                    default="1=default"
+                    label="Specify your variable sources"
+                    description=""
+                    rows="10"
+                    cols="70"
+                    width="100%"
+                    filter="raw"/>
+                <!--                <field
+                name="variabledefinition"
+                type="textarea"
+                default=";test='My First Variable';"
+                label="Give some variables"
+                description="Defining variables is quite simple. I assume you found this plugin while searching for globals or variables or kind of. So defining variables is as easy as writing an ini-File. Give a variable followed by a equal sign (=) and the value. Close the definition with a semicolo (;). If you would like to define a more complex value, surround the value with ('). Thats it."
+                rows="20"
+                cols="35"
+                width="100%"
+                filter="raw"/>-->
+                <!--                <field
+                name="variablesource"
+                type="text"
+                default=""
+                label="Article ID"
+                description="Give an article ID that holds the variable definition"
+                filter="raw"/>-->
+            </fieldset>
+        </fields>
+    </config>
     <updateservers>
-            <server type="extension" name="globalvariables" priority="1">https://github.com/echterhoff/plg-globalvariables/raw/master/globalvariables_update.xml</server>
+        <server type="extension" name="globalvariables" priority="1">https://github.com/echterhoff/plg-globalvariables/raw/master/globalvariables_update.xml</server>
     </updateservers>
 </extension>
