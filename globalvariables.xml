@@ -18,10 +18,11 @@
     <files>
         <filename>index.html</filename>
         <filename plugin="globalvariables">globalvariables.php</filename>
-        <folder>languages</folder>
+        <folder>language</folder>
     </files>
     <languages>
-        <language tag="en-GB">languages/en-GB/en-GB.plg_content_globalvariables.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_content_globalvariables.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_content_globalvariables.sys.ini</language>
     </languages>
     <config>
         <fields name="params">
