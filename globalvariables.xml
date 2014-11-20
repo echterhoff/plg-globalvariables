@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.7" type="plugin" group="content">
+<extension version="2.5" type="plugin" group="content">
     <name>Content - Global Variables</name>
     <author>Lars Echterhoff</author>
     <creationDate>Nov 2014</creationDate>
@@ -20,15 +20,8 @@
         <filename plugin="globalvariables">globalvariables.php</filename>
         <folder>languages</folder>
     </files>
-        <administraton>
-            <menu>COM_EXAMPLE</menu>
-            <submenu>
-                    <menu link="anoption=avalue">COM_EXAMPLE_SUBMENU_ANOPTION</menu>
-                    <menu view="viewname">COM_EXAMPLE_SUBMENU_VIEWNAME</menu>
-            </submenu>
-        </administraton>
     <languages folder="languages">
-            <language tag="en-GB">en-GB.plg_globalvariables.sys.ini</language>
+            <language tag="en-GB">en-GB.plg_content_globalvariables.sys.ini</language>
     </languages>
     <config>
         <fields name="params">
@@ -36,14 +29,14 @@
                 <field
                     name="note_variable_source"
                     type="note"
-                    label="VARIABLE_SOURCE"
-                    description="LOREMIPSUM_DESC"
+                    label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_LABEL"
+                    description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_DESC"
                 />
                 <field 
                     name="variablesource"
                     type="sql"
                     default="10"
-                    label="Select an default article"
+                    label="Select a default article"
                     query="SELECT id, title as variablesource FROM #__content"
                     key_field="id">
                     <option value="">- Select an article -</option>
