@@ -213,7 +213,7 @@ class plgContentGlobalVariables extends JPlugin
                     $string = substr_replace($string, $replace['value'], $replace['offset'], $replace['length']);
                     $replace['offset']+=strlen($replaceValue->value);
                 } else {
-                    $replace['offset']+=$replace['length'];
+                    $replace['offset']+=strlen($matches[0][0]);
                     $not_set_variables[$matches[0][0]] = $matches;
                 }
 
@@ -300,13 +300,17 @@ class plgContentGlobalVariables extends JPlugin
 
     private function get_article_content_by_id($id)
     {
-        JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
-        $model = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
-        $appParams = JFactory::getApplication()->getParams();
-        $model->setState('params', $appParams);
+        try {
+            JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
+            $model = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
+            $appParams = JFactory::getApplication()->getParams();
+            $model->setState('params', $appParams);
 
-        $item = $model->getItem($id);
-        return ($item->fulltext ? $item->fulltext : $item->introtext);
+            $item = $model->getItem($id);
+            return ($item->fulltext ? $item->fulltext : $item->introtext);
+        } catch (Exception $e) {
+            return "";
+        }
     }
 
     private function InjectHeadCode()
