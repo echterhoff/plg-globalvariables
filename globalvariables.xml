@@ -15,13 +15,13 @@
         <p>Further information on: <a href="https://github.com/echterhoff/plg-globalvariables">https://github.com/echterhoff/plg-globalvariables</a></p>
 		]]>
     </description>
-    <fileset>
+    <files>
         <filename>index.html</filename>
         <filename plugin="globalvariables">globalvariables.php</filename>
         <files folder="languages" target="language/en-GB">
           <filename>en-GB.plg_globalvariables.sys.ini</filename>
         </files>
-    </fileset>
+    </files>
     <config>
         <fields name="params">
             <fieldset name="params" label="Variable Source">
