@@ -12,7 +12,7 @@
 		<![CDATA[
         <p>Please check your plugin page if this plugin is activated: <a href="/administrator/index.php?option=com_plugins&view=plugins&filter_search=Global%20Variables">Click here</a></p>
 		<p>This plugin gives you the possibility to define often reused text fragments and reuse it in every content as variable.<p/>
-        <p>Further information on: <a href="https://github.com/echterhoff/plg-globalvariables" target="_new">https://github.com/echterhoff/plg-globalvariables <span class="icon icon-out-2"></span></a></p>
+        <p>Further information on: <a href="https://github.com/echterhoff/plg-globalvariables" target="_new"><span class="icon icon-out-2"></span> https://github.com/echterhoff/plg-globalvariables</a></p>
 		]]>
     </description>
 <!--        <p><a href="#attrib-sources" data-toggle="tab" class="btn btn-large btn-success"><span class="icon icon-puzzle large"></span>&nbsp; Configure Sources</a></p>
@@ -30,13 +30,11 @@
         <fields name="params"
                 class="controls controls-row"
         >
-            <fieldset 
+            <fieldset
+                addfieldpath="/plugin/content/globalvariables/form/fields"
                 name="sources"
                 label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_TAB"
             >
-
-
-
                 <field
                     name="note_variable_source"
                     type="note"
@@ -54,21 +52,22 @@
                     key_field="id">
                     <option value="0">JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_DEFAULT_LABEL</option>
                 </field>
-                <field
+<!--                <field
                     name="note_bug_in_repeatable"
                     type="note"
                     class="span6 alert alert-error"
                     label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_BUG_LABEL"
                     description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_BUG_DESC"
-                />
+                />-->
                 <field name="direct_variable_input"
-                       type="Repeatable"
+                       type="Blockrepeat"
                        icon="pencil"
+                       filter="raw"
                        maximum="999"
                        select="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_BUTTON_LABEL"
                        label="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_LABEL"
                        description="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_DESC"
-                       default="{'varname':['varname_text','varname_html'],'varvalue':['Simple snippet','Simple \u003cb\u003eHTML\u003c/b\u003e snippet']}">
+                       default='{"varname":["varname_text","varname_html"],"varvalue":["Simple text snippet example.","Simple \u003cem\u003eHTML\u003c/em\u003e snippet example."]}'>
                     <fields name="params">
                         <fieldset hidden="true"
                                   name="direct_variable_input_modal"
@@ -80,19 +79,19 @@
                             <field name="varvalue"
                                    label="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_VARVALUE_LABEL"
                                    size="1024"
+                                   filter="raw"
                                    type="textarea" />
                         </fieldset>
                     </fields>
                 </field>
                 <field name="sourceconfiguration"
-                       type="Repeatable"
+                       type="Blockrepeat"
                        icon="pencil"
                        maximum="999"
                        select="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_BUTTON_LABEL"
                        label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_LABEL"
                        description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_DESC"
-                    
-                       default='{"sourceactive":[["0"]],"sourcealias":["dropbox"],"sourceurl":["https://dl.dropboxusercontent.com/u/134085/globalvariables/testvariables.txt"]}'>
+                       default='{"sourceactive":["0"],"sourcealias":["dropbox"],"sourceurl":["https://dl.dropboxusercontent.com/u/134085/globalvariables/testvariables.txt"]}'>
                     <fields name="params">
                         <fieldset hidden="true"
                                   name="sourceconfiguration_modal"

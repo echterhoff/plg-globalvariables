@@ -11,10 +11,7 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-jimport('joomla.plugin.plugin');
-
 define("GLOBAL_VARS_DEV", true);
-
 if (!function_exists("dd")) {
 
     function dd()
@@ -34,6 +31,18 @@ if (!function_exists("dd")) {
     }
 
 }
+
+//dd(JPATH_COMPONENT);
+//dd(JPATH_PLUGINS);
+//dd(get_defined_constants());
+
+jimport('joomla.plugin.plugin');
+jimport('joomla.form.helper');
+
+JFormHelper::addFieldPath(JPATH_PLUGINS . '/content/' . basename(__FILE__,'.php') . '/form/fields');
+JHtml::_('bootstrap.framework');
+JHtml::_('jquery.framework');
+JHtml::script(substr(dirname(__FILE__),strlen(JPATH_SITE)+1).'/form/fields/blockrepeat.js');
 
 class plgContentGlobalVariables extends JPlugin
 {
@@ -55,6 +64,13 @@ class plgContentGlobalVariables extends JPlugin
     {
         parent::__construct($subject, $params);
         $this->_plugin = JPluginHelper::getPlugin('content', 'globalvariables');
+
+
+        $gv_params = $this->params;
+        
+        dd(json_decode($gv_params->get("direct_variable_input")));
+        dd(json_decode($gv_params->get("sourceconfiguration")));
+
     }
 
     /**
