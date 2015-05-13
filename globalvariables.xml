@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="content">
+<extension version="3.4" type="plugin" group="content">
     <name>Content - Global Variables</name>
     <author>Lars Echterhoff</author>
-    <creationDate>Nov 2014</creationDate>
-    <copyright>Copyright (C) 2012 Echterhoff Medientechnik</copyright>
+    <creationDate>May 2015</creationDate>
+    <copyright>Copyright (C) 2015 Lars Echterhoff</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>info@echterhoff.it</authorEmail>
-    <authorUrl>www.echterhoff-medientechnik.de</authorUrl>
-    <version>1.4.0dev</version>
+    <authorUrl>www.echterhoff.it</authorUrl>
+    <version>3.4.0dev</version>
     <description>
 		<![CDATA[
         <p>Please check your plugin page if this plugin is activated: <a href="/administrator/index.php?option=com_plugins&view=plugins&filter_search=Global%20Variables">Click here</a></p>
