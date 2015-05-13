@@ -46,7 +46,7 @@ class plgContentGlobalVariablesInstallerScript
     public function postflight($route, JAdapterInstance $adapter)
     {
         // We only need to perform this if the extension is being installed, not updated
-        if ($type == 'install') {
+        if ($route == 'install') {
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
 
