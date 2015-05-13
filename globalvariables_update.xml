@@ -4,14 +4,20 @@
         <name>Content - Global Variables</name>
         <description>Content - Global Variables</description>
         <element>globalvariables</element>
-        <type>module</type>
-        <version>1.4</version>
+        <type>file</type>
+        <version>3.4</version>
+        <infourl title="GlobalVariables">
+            https://github.com/echterhoff/plg-globalvariables/
+        </infourl>
+        <tags>
+            <tag>stable</tag>
+        </tags>
         <downloads>
             <downloadurl type="full" format="zip">https://github.com/echterhoff/plg-globalvariables/archive/master.zip</downloadurl>
         </downloads>
         <maintainer>Joomla</maintainer>
         <maintainerurl>https://github.com/echterhoff/plg-globalvariables/</maintainerurl>
-        <targetplatform name="joomla" version="2.5"/>
+        <targetplatform name="joomla" version="3.4"/>
         <client>site</client>
     </update>
 </updates>

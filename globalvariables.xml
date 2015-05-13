@@ -15,8 +15,8 @@
         <p>Further information on: <a href="https://github.com/echterhoff/plg-globalvariables" target="_new"><span class="icon icon-out-2"></span> https://github.com/echterhoff/plg-globalvariables</a></p>
 		]]>
     </description>
-<!--        <p><a href="#attrib-sources" data-toggle="tab" class="btn btn-large btn-success"><span class="icon icon-puzzle large"></span>&nbsp; Configure Sources</a></p>
-        <p><a href="#attrib-settings" data-toggle="tab" class="btn btn-large"><span class="icon icon-options large"></span>&nbsp; Variable Settings</a></p>-->
+    <!--        <p><a href="#attrib-sources" data-toggle="tab" class="btn btn-large btn-success"><span class="icon icon-puzzle large"></span>&nbsp; Configure Sources</a></p>
+    <p><a href="#attrib-settings" data-toggle="tab" class="btn btn-large"><span class="icon icon-options large"></span>&nbsp; Variable Settings</a></p>-->
     <files>
         <filename>index.html</filename>
         <filename plugin="globalvariables">globalvariables.php</filename>
@@ -42,31 +42,38 @@
                     label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_NOTE_LABEL"
                     description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_NOTE_DESC"
                 />
-                <field
+                <!--                <field
+                name="variablesource2"
+                type="menuitem"
+                class="span5"
+                default="0"
+                label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_LABEL"/>-->
+                <!--field
                     name="variablesource"
                     type="sql"
                     class="span5"
                     default="0"
                     label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_LABEL"
-                    query="SELECT id, title as variablesource FROM #__content"
+                    query="SELECT id, title as variablesource FROM #__content WHERE state = 0 or state = 1 ORDER BY title"
                     key_field="id">
                     <option value="0">JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_DEFAULT_LABEL</option>
-                </field>
-<!--                <field
+                </field-->
+                <!--                <field
                     name="note_bug_in_repeatable"
                     type="note"
                     class="span6 alert alert-error"
                     label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_BUG_LABEL"
                     description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_BUG_DESC"
                 />-->
+
                 <field name="direct_variable_input"
-                       type="Blockrepeat"
+                       type="Repeatable"
                        icon="pencil"
                        filter="raw"
                        maximum="999"
                        select="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_BUTTON_LABEL"
-                       label="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_LABEL"
-                       description="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_DESC"
+                       label="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_TITLE"
+                       description="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_INFO"
                        default='{"varname":["varname_text","varname_html"],"varvalue":["Simple text snippet example.","Simple \u003cem\u003eHTML\u003c/em\u003e snippet example."]}'>
                     <fields name="params">
                         <fieldset hidden="true"
@@ -74,45 +81,100 @@
                                   repeat="true">
                             <field name="varname"
                                    label="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_VARNAME_LABEL"
+                                   description="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_VARNAME_DESC"
                                    size="30"
                                    type="text" />
                             <field name="varvalue"
                                    label="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_VARVALUE_LABEL"
+                                   description="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_VARVALUE_DESC"
                                    size="1024"
                                    filter="raw"
                                    type="textarea" />
                         </fieldset>
                     </fields>
                 </field>
+                <!--default='{"sourcedefault":"0","sourceactive":["0"],"sourcealias":["dropbox"],"sourceurl":["https://dl.dropboxusercontent.com/u/134085/globalvariables/testvariables.txt"]}'-->
                 <field name="sourceconfiguration"
-                       type="Blockrepeat"
+                       type="Repeatable"
                        icon="pencil"
                        maximum="999"
                        select="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_BUTTON_LABEL"
-                       label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_LABEL"
-                       description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_DESC"
-                       default='{"sourceactive":["0"],"sourcealias":["dropbox"],"sourceurl":["https://dl.dropboxusercontent.com/u/134085/globalvariables/testvariables.txt"]}'>
+                       label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_TITLE"
+                       description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_INFO"
+                       default='{"sourceactive":["1"],"sourcedefault":["1"],"sourcealias":["internal"],"variablesource":["0"],"sourceurl":[""]}'>
                     <fields name="params">
                         <fieldset hidden="true"
                                   name="sourceconfiguration_modal"
                                   repeat="true">
-                            <field name="sourceactive" type="radio"
+                            <field name="sourceactive"
+                                   type="checkbox"
+                                   value="1"
+                                   class="enable-switch"
+                                   label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEACTIVE_LABEL"
+                                   description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEACTIVE_DESC">
+                            </field>
+                            <field name="sourcedefault"
+                                   type="radio"
+                                   default="0"
+                                   class="selection-hides-sourcealias"
+                                   label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEDEFAULT_LABEL"
+                                   description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEDEFAULT_DESC">
+                                <option value="1"></option>
+                            </field>
+                            <!--field name="sourceactive" type="list"
                                    default="1"
                                    label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEACTIVE_LABEL"
                                   description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEACTIVE_DESC">
-                                <option value="0">Active</option>
-                                <option value="1">Disabled</option>
-                            </field>
+                                <option value="1">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEACTIVE_ENABLED_LABEL</option>
+                                <option value="0">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEACTIVE_DISABLED_LABEL</option>
+                            </field-->
                             <field name="sourcealias"
                                    label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEALIAS_LABEL"
                                    description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEALIAS_DESC"
                                    size="30"
                                    type="text" />
+                            <field
+                                name="variablesource"
+                                type="sql"
+                                width="200"
+                                default="0"
+                                class="selection-hides-sourceurl selection-hides-sourcerevisit"
+                                label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCETYPE_LABEL"
+                                description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCETYPE_DESC"
+                                query="SELECT id, title as variablesource FROM #__content WHERE state = 0 or state = 1 ORDER BY title"
+                                key_field="id">
+                                <option value="0">JFIELD_PLG_GLOBALVARIABLES_VARIABLE_SOURCE_DEFAULT_LABEL</option>
+                            </field>
                             <field name="sourceurl"
                                    label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEURL_LABEL"
                                    description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEURL_DESC"
                                    size="1024"
                                    type="text" />
+
+                            <field name="sourcerevisit"
+                                   label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_LABEL"
+                                   description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_DESC"
+                                   type="list">
+                                <option value="0">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_TIME</option>
+                                <option value="1">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_1_MINUTES</option>
+                                <option value="5">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_5_MINUTES</option>
+                                <option value="10">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_10_MINUTES</option>
+                                <option value="15">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_15_MINUTES</option>
+                                <option value="30">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_30_MINUTES</option>
+                                <option value="60">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_60_MINUTES</option>
+                                <option value="120">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_120_MINUTES</option>
+                                <option value="240">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_240_MINUTES</option>
+                                <option value="360">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_6_HOURS</option>
+                                <option value="720">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_12_HOURS</option>
+                                <option value="1440">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_24_HOURS</option>
+                                <option value="4320">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_3_DAYS</option>
+                                <option value="7200">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_5_DAYS</option>
+                                <option value="10080">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_7_DAYS</option>
+                                <option value="20160">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_14_DAYS</option>
+                                <option value="43200">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_30_DAYS</option>
+                                <option value="129600">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_3_MONTHS</option>
+                                <option value="259200">JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_SOURCEREVISIT_EVERY_6_MONTHS</option>
+                            </field>
                         </fieldset>
                     </fields>
                 </field>
@@ -133,15 +195,15 @@
                     label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_LABEL"
                     description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_DESC"
                 />
-                <field name="variable_style_legacy" 
-                       type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_LEGACY"
-                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_LEGACY_DESC" value="legacy" />
+                <!--                <field name="variable_style_legacy"
+                type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_LEGACY"
+                description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_LEGACY_DESC" value="legacy" />-->
                 <field name="variable_style_curly" default="1"
                        type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_CURLY"
                        description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_CURLY_DESC" value="curly" />
-                <field name="variable_style_varescaped" default="1"
-                       type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_VARESCAPED"
-                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_VARESCAPED_DESC" value="varescaped" />
+                <!--                <field name="variable_style_varescaped" default="1"
+                type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_VARESCAPED"
+                description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_VARESCAPED_DESC" value="varescaped" />-->
                 <field name="variable_style_doublecurly" default="1"
                        type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_DOUBLECURLY"
                        description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_DOUBLECURLY_DESC" value="doublecurly" />
@@ -151,6 +213,12 @@
                     class="span6"
                     label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_REPLACE_BEHAVIOR_LABEL"
                 />
+                <field name="replace_variables_iteration_limit" default="5000"
+                       max="100000"
+                       min="1"
+                       type="number" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_ITERATION_LIMIT_LABEL"
+                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_ITERATION_LIMIT_DESC" value="1000" />
+
                 <field
                     name="note_variable_replace_behavior" class="span6 alert alert-error"
                     type="note"
@@ -159,6 +227,19 @@
                 <field name="replace_undefined_variables" default="0"
                        type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_REPLACE_UNDEFINED_VARIABLES_LABEL"
                        description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_REPLACE_UNDEFINED_VARIABLES_DESC" value="1" />
+
+                <field
+                    name="note_variable_replace_debug_headline"
+                    type="note"
+                    class="span6"
+                    label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_REPLACE_DEBUG_HEADLINE"
+                />
+                <field name="highlight_variables_debug" default="0"
+                       type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_HIGHLIGHT_DEBUG_LABEL"
+                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_HIGHLIGHT_DEBUG_DESC" value="1" />
+                <field name="replace_variables_debug" default="0"
+                       type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_REPLACE_DEBUG_LABEL"
+                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_REPLACE_DEBUG_DESC" value="1" />
 
             </fieldset>
         </fields>

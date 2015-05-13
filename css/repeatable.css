@@ -1,0 +1,254 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 21.11.2014, 16:28:58
+    Author     : lars
+*/
+
+
+
+.chzn-container.disabled a,
+.chzn-container.disabled a:hover{
+    cursor: not-allowed;
+}
+.chzn-container.disabled>div.chzn-drop,
+.chzn-container.disabled>a>div>b{
+    display: none;
+}
+
+body{
+    -webkit-perspective: 1600px;
+    perspective: 1600px;
+}
+div div.modal{
+    /*
+        transition: box-shadow 0.1s, -webkit-transform 0.1s, transform 0.1s, opacity 0.1s;
+        background-color: #FFF;
+    */
+    border-radius: 0px;
+    -webkit-box-shadow: 0 3px 50px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 3px 50px rgba(0,0,0,0.3);
+    box-shadow: 0 3px 50px rgba(0, 0, 0, 0.3);
+    /*margin-top: -100px;*/
+    /*
+        -webkit-transform: scale(1.2) rotateX(35deg);
+        transform: scale(1.2) rotateX(35deg);
+        display: initial !important;
+        opacity: 0;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        -webkit-transform-origin: 50% 0%;
+        -webkit-transition-delay: 0.0s;
+        transform-origin: 50% 0%;
+        transition-delay: 0.0s;
+    */
+    /*left: -10000px !important;*/
+}
+div div.modal.hide.in{
+    transition: box-shadow 0.3s, -webkit-transform 0.3s, transform 0.3s, opacity 0.3s;
+    box-shadow: 0 3px 150px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    /*left: 0px !important;*/
+    -webkit-transform: scale(1) rotateX(0deg);
+}
+div div.modal.hide.hidden{
+    display: none;
+}
+.modal .table-striped tbody > tr:nth-child(odd) > td,
+.modal .table-striped tbody > tr:nth-child(odd) > th{
+    /*display: none;*/
+    background-color: transparent;
+}
+.modal .modal-header,
+.modal .modal-footer {
+    background-color: #175186;
+    color: white;
+
+}
+.modal .modal-header {
+    padding-left: 10px;
+    padding-right: 10px;
+    /*background-color: #F5F5F5;*/
+}
+.modal .modal-footer {
+    border-radius: 0 0 0px 0px;
+}
+.modal .modal-footer button,
+.modal .modal-footer .btn + .btn{
+    margin-bottom: -19px;
+    border-color: #FFF;
+    border-bottom-width: 0px;
+}
+.modal .modal-footer button.btn-link{
+    color: white;
+    border-width: 0px;
+}
+
+.modal .btn,
+.modal .btn-group > .btn:first-child,
+.modal .btn-group > .btn:last-child,
+.modal .btn-group > .dropdown-toggle,
+.modal .btn-group > .btn.large:first-child,
+.modal .btn-group > .btn.large:last-child,
+.modal .btn-group > .large.dropdown-toggle {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    /*border: 0px solid #BBB;*/
+}
+.modal .modal-header .close-modal{
+    border: 0px solid #000;
+    color: white;
+    font-size: 9px;
+    border-top: 0px solid #000;
+    margin-top: -9px;
+    background-color: rgba(189, 0, 0, 0.61);
+}
+.modal .modal-header .close-modal:hover{
+    background-color: rgba(189, 0, 0, 0.85);
+
+}
+.modal .btn-group>.btn.remove,
+.modal .btn-group>.btn.add{
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    padding: 4px 8px;
+}
+.modal .btn [class^="icon-"], .modal .btn [class*=" icon-"] {
+    line-height: 21px;
+}
+.modal .btn-success {
+    text-shadow: 0 0px 0 rgba(0, 0, 0, 0.25);
+    background-color: rgba(91, 183, 91, 0.2);
+    background-image: none;
+    border-color: rgba(91, 183, 91, 1);
+}
+
+.modal .btn-danger {
+    text-shadow: 0 0px 0 rgba(0, 0, 0, 0.25);
+    background-color: rgba(218, 79, 73, 0.2);
+    background-image: none;
+    border-color: rgba(218, 79, 73, 1);
+}
+
+.modal .btn-primary {
+    text-shadow: 0 0px 0 rgba(0, 0, 0, 0.25);
+    background-color: #1D6CB0;
+    background-image: none;
+    border-color: #1D6CB0
+}
+
+.modal textarea,
+.modal input[type="text"],
+.modal input[type="password"],
+.modal input[type="datetime"],
+.modal input[type="datetime-local"],
+.modal input[type="date"],
+.modal input[type="month"],
+.modal input[type="time"],
+.modal input[type="week"],
+.modal input[type="number"],
+.modal input[type="email"],
+.modal input[type="url"],
+.modal input[type="search"],
+.modal input[type="tel"],
+.modal input[type="color"],
+.modal .uneditable-input {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.modal textarea:focus,
+.modal input[type="text"]:focus,
+.modal input[type="password"]:focus,
+.modal input[type="datetime"]:focus,
+.modal input[type="datetime-local"]:focus,
+.modal input[type="date"]:focus,
+.modal input[type="month"]:focus,
+.modal input[type="time"]:focus,
+.modal input[type="week"]:focus,
+.modal input[type="number"]:focus,
+.modal input[type="email"]:focus,
+.modal input[type="url"]:focus,
+.modal input[type="search"]:focus,
+.modal input[type="tel"]:focus,
+.modal input[type="color"]:focus,
+.modal .uneditable-input:focus {
+    -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(82, 168, 236, 0.6);
+    -moz-box-shadow: inset 0 0px 0px rgba(0,0,0,.075), 0 0 0px rgba(82,168,236,.6);
+    box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(82, 168, 236, 0.6);
+}
+
+.modal .chzn-container .chzn-results li.active-result{
+    box-shadow: none;
+}
+
+.modal .chzn-container-active.chzn-with-drop .chzn-single {
+    border: 1px solid #AAA;
+    border-radius: 0;
+    background-image: none;
+}
+
+.modal .chzn-container .chzn-results li.highlighted {
+    background-image: none;
+}
+
+.modal .chzn-container-single .chzn-single{
+    /*height: 25px;*/
+    background: none;
+    height: 18px;
+    padding: 4px 6px;
+    line-height: 18px;
+    border-radius: 0px;
+    border: 1px solid #CCC;
+    box-shadow: none;
+}
+body .modal-backdrop,
+body .modal-backdrop.fade.in{
+    opacity: 0.5;
+    background-color: #FFF;
+}
+
+#attrib-sources .control-group .control-label label,
+#attrib-variable_setting .control-group .control-label label {
+    margin-left: 20px;
+    max-width: 150px;
+}
+
+
+table thead > tr > th.small-element,
+table tbody > tr > td.small-element {
+    max-width: 60px !important;
+    overflow: hidden;
+}
+table tbody > tr > td.small-element {
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    #attrib-sources .control-group .control-label label,
+    #attrib-variable_setting .control-group .control-label label {
+        margin-left: 0px;
+        max-width: 150px;
+    }
+}
+@media (max-width: 480px) {
+    #attrib-sources .control-group .control-label label,
+    #attrib-variable_setting .control-group .control-label label {
+        margin-left: 0px;
+        max-width: 50%;
+    }
+    #attrib-sources .control-group .control-label,
+    #attrib-variable_setting .control-group .control-label {
+        width: 80% !important;
+        float: left !important;
+    }
+}

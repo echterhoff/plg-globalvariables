@@ -1,0 +1,4 @@
+localvar="Keeps also content";
+testlang="Standard string is in e.g. english and also fallback"
+testlang.en-uk="Explicit string is in english"
+testlang.de-de="Übersetzt: Standardstring ist dann auf Deutsch"
