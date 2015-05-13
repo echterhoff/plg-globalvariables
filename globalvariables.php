@@ -169,9 +169,11 @@ class plgContentGlobalVariables extends JPlugin
     {
         $json = json_decode($json_input_string, true);
         $tmp = array();
-        foreach ($json as $field => $data) {
-            foreach ($data as $row => $value) {
-                $tmp[$row][$field] = $value;
+        if (is_array($json)) {
+            foreach ($json as $field => $data) {
+                foreach ($data as $row => $value) {
+                    $tmp[$row][$field] = $value;
+                }
             }
         }
         return $tmp;
@@ -243,11 +245,7 @@ class plgContentGlobalVariables extends JPlugin
         $bc = preg_quote($closing_brace, $rx_delimiter);
         $bcnq = $closing_brace;
 
-        $proto_string = 
-                str_replace('}', $bcnq, 
-                        str_replace('{', $bonq,
-                                str_replace('\}', $bc,
-                                        str_replace('\{', $bo, $proto_rx_string))));
+        $proto_string = str_replace('}', $bcnq, str_replace('{', $bonq, str_replace('\}', $bc, str_replace('\{', $bo, $proto_rx_string))));
         $varmatch_rx = $rx_delimiter . $proto_string . $rx_delimiter . 'is';
 
         $block = new globalVariablesString($string);
@@ -335,7 +333,8 @@ class plgContentGlobalVariables extends JPlugin
      * @param string $string
      * @return string
      */
-    public function processValue($string){
+    public function processValue($string)
+    {
 
 
         $start_tag = '';
@@ -344,8 +343,8 @@ class plgContentGlobalVariables extends JPlugin
             $start_tag = '<span style="color:red;background-color:white;box-shadow: 0px 0px 0px 2px #F00;">';
             $close_tag = '</span>';
         }
-        
-        return $start_tag.$string.$close_tag;
+
+        return $start_tag . $string . $close_tag;
     }
 
 }
@@ -525,6 +524,7 @@ class globalVariablesMatch
             $offset = -1;
         return $code;
     }
+
 }
 
 class globalVariablesMatchParameters
@@ -740,6 +740,7 @@ class globalVariablesParseAdapterText extends globalVariablesParseAdapterMaster
         }
         return $variable;
     }
+
 }
 
 class globalVariablesParseAdapterArray extends globalVariablesParseAdapterMaster
@@ -828,7 +829,7 @@ class globalVariablesSource
 
     private function getLanguageKey($key, $language = false)
     {
-        if (!$language){
+        if (!$language) {
             return $key;
         }
 
