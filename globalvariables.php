@@ -104,8 +104,6 @@ class plgContentGlobalVariables extends JPlugin
 
         $gv_params = $this->params;
 
-        dd($this->params->toArray());
-
         $this->parameter['sourceconfiguration'] = $this->rotateRepeatableData($gv_params->get("sourceconfiguration"));
         $this->parameter['direct_variable_input'] = $this->rotateRepeatableData($gv_params->get("direct_variable_input"));
         $this->parameter['direct_variable_input'] = $gv_params->get("direct_variable_input");
@@ -169,7 +167,6 @@ class plgContentGlobalVariables extends JPlugin
      */
     private function rotateRepeatableData($json_input_string)
     {
-        dd($json_input_string);
         $json = json_decode($json_input_string, true);
         $tmp = array();
         if (is_array($json)) {

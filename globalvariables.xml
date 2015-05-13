@@ -10,7 +10,8 @@
     <version>3.4.0dev</version>
     <description>
 		<![CDATA[
-        <p>Please check your plugin page if this plugin is activated: <a href="/administrator/index.php?option=com_plugins&view=plugins&filter_search=Global%20Variables">Click here</a></p>
+        <p>In order to properly configure this plugin it is absolutly mandatory to have it activated. If you just installed this plugin, it should have been activated.<br>
+           Please check your installation at the plugin page if this plugin has been properly activated: <a href="/administrator/index.php?option=com_plugins&view=plugins&filter_search=Global%20Variables">Click here</a></p>
 		<p>This plugin gives you the possibility to define often reused text fragments and reuse it in every content as variable.<p/>
         <p>Further information on: <a href="https://github.com/echterhoff/plg-globalvariables" target="_new"><span class="icon icon-out-2"></span> https://github.com/echterhoff/plg-globalvariables</a></p>
 		]]>
