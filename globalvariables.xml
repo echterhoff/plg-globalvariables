@@ -15,6 +15,7 @@
         <p>Further information on: <a href="https://github.com/echterhoff/plg-globalvariables" target="_new"><span class="icon icon-out-2"></span> https://github.com/echterhoff/plg-globalvariables</a></p>
 		]]>
     </description>
+    <scriptfile>globalvariables.scriptfile.php</scriptfile>
     <!--        <p><a href="#attrib-sources" data-toggle="tab" class="btn btn-large btn-success"><span class="icon icon-puzzle large"></span>&nbsp; Configure Sources</a></p>
     <p><a href="#attrib-settings" data-toggle="tab" class="btn btn-large"><span class="icon icon-options large"></span>&nbsp; Variable Settings</a></p>-->
     <files>

@@ -4,7 +4,7 @@
         <name>Content - Global Variables</name>
         <description>Content - Global Variables</description>
         <element>globalvariables</element>
-        <type>file</type>
+        <type>plugin</type>
         <version>3.4</version>
         <infourl title="GlobalVariables">
             https://github.com/echterhoff/plg-globalvariables/
