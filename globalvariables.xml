@@ -76,7 +76,7 @@
                        select="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_BUTTON_LABEL"
                        label="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_TITLE"
                        description="JFIELD_PLG_GLOBALVARIABLES_DIRECT_VARIABLE_INPUT_INFO"
-                       default='{"varname":["varname_text","varname_html"],"varvalue":["Simple text snippet example.","Simple \u003cem\u003eHTML\u003c/em\u003e snippet example."]}'>
+                >
                     <fields name="params">
                         <fieldset hidden="true"
                                   name="direct_variable_input_modal"
