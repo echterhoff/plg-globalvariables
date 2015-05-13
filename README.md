@@ -3,7 +3,7 @@
 <img src="https://raw.githubusercontent.com/echterhoff/plg-globalvariables/assets/icon.png" width="150" align="right">
 ### Latest changes
  Complete rewritten from scratch.
- ...and since this is a complete rewrite I have cut compatibility and reduced the variable syntax to {varname} and {global}varname{/global} only. Please dont complain about that.
+ ...and since this is a complete rewrite I have cut compatibility and reduced the variable syntax to {{varname}} and {global}varname{/global} only. Please dont complain about that.
 
 ### Global Variables for Joomla! 3.4+
 This plugin parses the content on prepare time for variables within the content elements and replaces the variables with defined values. I wrote this plugin just because I did not find a plugin that could serve me with a easy solution like this...
@@ -16,15 +16,15 @@ Defining a variable file is as easy as writing an ini-File. Specify a variable n
 
 You dont need to close your definition by a semicolon. Just quote the variable content with ' or "
 
-To use a variable, just place the variable name in your article as {varname}. As an alternative wrap your variable name with {global}varname{/global}.
+To use a variable, just place the variable name in your article as {{varname}}. As an alternative wrap your variable name with {global}varname{/global}.
 
 This is the basic usage.
 
 Since this is a all new version, there are several improvement like:
- - Support for multilanguage use. {varname lang=de-DE} or {varname.de-DE} or simply {varname} and let Falang handle it. (Falang compatibility)
- - Source selection beside the selected default source. {varname source=myname}
+ - Support for multilanguage use. {{varname lang=de-DE}} or {{varname.de-DE}} or simply {{varname}} and let Falang handle it. (Falang compatibility)
+ - Source selection beside the selected default source. {{varname source=myname}}
  - Use files from Dropbox, your public ftp or what ever is accessible from your web server as source.
- - Script request. {varname query=1}
+ - Script request. {{varname query=1}}
  - Debug modes: Highlight or expose the tags in your page.
 
 ### Installation
