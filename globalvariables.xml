@@ -21,6 +21,8 @@
         <filename>index.html</filename>
         <filename plugin="globalvariables">globalvariables.php</filename>
         <folder>language</folder>
+        <folder>form</folder>
+        <folder>css</folder>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.plg_content_globalvariables.ini</language>
