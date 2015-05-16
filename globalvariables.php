@@ -135,29 +135,60 @@ class plgContentGlobalVariables extends JPlugin
     {
         if ($this->params->get("direct_variable_input")) {
             $div = json_decode($this->getParameter("direct_variable_input"));
+//            dd("Direct");
             if (isset($div->varname) && $div->varname) {
+//                dd("Direct!");
                 $div = array_combine($div->varname, $div->varvalue);
                 $this->mounted_sources[GV_SOURCE_INTERNAL] = new globalVariablesSource(GV_SOURCE_INTERNAL, $div);
             }
         } else {
+//            dd("Config Direct");
             $this->mounted_sources[GV_SOURCE_INTERNAL] = new globalVariablesSource(GV_SOURCE_INTERNAL, array());
         }
 
+        //This is something, ehm... this isnt straight. Rewrite, soon!
         if ($this->getParameter('sourceconfiguration')) {
+//            dd("Config by Source");
             foreach ($this->getParameter('sourceconfiguration') as $data) {
+//                dd($data);
                 if ($data['sourceactive']) {
+//                    dd("Active source!");
                     if (!$data['sourcealias'] && $data['sourcedefault']) {
+//                        dd("Choice 1");
                         $sourcealias = GV_SOURCE_DEFAULT;
                         $this->mounted_sources[$sourcealias] = new globalVariablesSource($sourcealias, ($data['sourceurl'] ? $data['sourceurl'] : ($data['variablesource'] ? $data['variablesource'] : false)));
                     } elseif ($data['sourcealias'] && !$data['sourcedefault']) {
+//                        dd("Choice 2");
                         $sourcealias = $data['sourcealias'];
                         $this->mounted_sources[$sourcealias] = new globalVariablesSource($sourcealias, ($data['sourceurl'] ? $data['sourceurl'] : ($data['variablesource'] ? $data['variablesource'] : false)));
-                    } elseif (!$data['sourcealias'] && !$data['sourcedefault']) {
-                        $sourcealias = $data['sourcealias'];
+                    } elseif (($data['variablesource'] || $data['sourceurl']) && !$data['sourcealias'] && !$data['sourcedefault']) {
+//                        dd("Choice 3");
+                        $sourcealias = "unnamed" . $this->getUnnamedNumber();
+                        $this->mounted_sources[$sourcealias] = new globalVariablesSource($sourcealias, $data['variablesource']);
+                    } elseif (($data['variablesource'] || $data['sourceurl']) && $data['sourcealias'] && $data['sourcedefault']) {
+//                        dd("Choice 4");
+//                        $sourcealias = $data['sourcealias'];
+                        $sourcealias = GV_SOURCE_DEFAULT;
+                        $this->mounted_sources[$sourcealias] = new globalVariablesSource($sourcealias, $data['variablesource']);
+                        $this->mounted_sources[$sourcealias]->mountSource();
+//                        dd($this->mounted_sources);
+                    } else {
+//                        dd("Choice none");
                     }
                 }
             }
         }
+    }
+
+    private function getUnnamedNumber()
+    {
+        $unnamed_count = 1;
+        foreach (array_keys($this->mounted_sources) as $aliaskey) {
+            if (strpos("unnamed", $aliaskey) === 0) {
+                $unnamed_count++;
+            }
+        }
+        return $unnamed_count;
     }
 
     /**
@@ -795,6 +826,7 @@ class globalVariablesSource
     {
         $this->alias = $alias;
 //        $this->sourceurl = (!is_array($url)?$url:'array');
+
         if (is_array($url)) {
             $this->sourceurl = 'array';
             $this->data_stream = $url;
