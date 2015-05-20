@@ -213,6 +213,16 @@
                        type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_DOUBLECURLY"
                        description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_STYLE_OPTION_DOUBLECURLY_DESC" value="doublecurly" />
                 <field
+                    name="note_variable_caching_behavior_headline"
+                    type="note"
+                    class="span6"
+                    label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_CACHING_BEHAVIOR_LABEL"
+                />
+                <field name="variable_caching" default="0"
+                       type="checkbox" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_CACHING_OVERRIDE_LABEL"
+                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_CACHING_OVERRIDE_DESC" value="1" />
+                
+                <field
                     name="note_variable_replace_behavior_headline"
                     type="note"
                     class="span6"
