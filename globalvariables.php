@@ -111,6 +111,8 @@ class plgContentGlobalVariables extends JPlugin
 
         $this->parameter['replace_variables_iteration_limit'] = $gv_params->get("replace_variables_iteration_limit");
 
+        $this->parameter['caching'] = $gv_params->get("variable_caching");
+
         $this->parameter['variable_style'] = array();
         $this->parameter['variable_style']['curly'] = ($gv_params->get("variable_style_curly") ? true : false);
         $this->parameter['variable_style']['doublecurly'] = ($gv_params->get("variable_style_doublecurly") ? true : false);
@@ -136,115 +138,84 @@ class plgContentGlobalVariables extends JPlugin
     {
         if ($this->params->get("direct_variable_input")) {
             $div = json_decode($this->getParameter("direct_variable_input"));
-//            dd("Direct");
             if (isset($div->varname) && $div->varname) {
-//                dd("Direct!");
                 $div = array_combine($div->varname, $div->varvalue);
                 $this->mounted_sources[GV_SOURCE_INTERNAL] = new globalVariablesSource(GV_SOURCE_INTERNAL, $div);
+            } else {
+                $this->mounted_sources[GV_SOURCE_INTERNAL] = new globalVariablesSource(GV_SOURCE_INTERNAL, array());
             }
         } else {
-//            dd("Config Direct");
             $this->mounted_sources[GV_SOURCE_INTERNAL] = new globalVariablesSource(GV_SOURCE_INTERNAL, array());
         }
 
-        //This is something, ehm... this isnt straight. Rewrite, soon!
         if ($this->getParameter('sourceconfiguration')) {
-//            dd("Config by Source");
             foreach ($this->getParameter('sourceconfiguration') as $data) {
-                dd($data["sourcerevisit"]);
-
-
-
-                if ($data['sourceactive']) {
-
-                    $sourcealias = false;
-                    $actualsource = false;
-//                    dd("Active source!");
-                    if (!$data['sourcealias'] && $data['sourcedefault']) {
-//                        dd("Choice 1");
-                        $sourcealias = GV_SOURCE_DEFAULT;
-                        $actualsource = ($data['sourceurl'] ? $data['sourceurl'] : ($data['variablesource'] ? $data['variablesource'] : false));
-//                            $this->mounted_sources[$sourcealias] = new globalVariablesSource($sourcealias, ($data['sourceurl'] ? $data['sourceurl'] : ($data['variablesource'] ? $data['variablesource'] : false)));
-                    } elseif ($data['sourcealias'] && !$data['sourcedefault']) {
-//                        dd("Choice 2");
-                        $sourcealias = $data['sourcealias'];
-                        $actualsource = ($data['sourceurl'] ? $data['sourceurl'] : ($data['variablesource'] ? $data['variablesource'] : false));
-//                            $this->mounted_sources[$sourcealias] = new globalVariablesSource($sourcealias, ($data['sourceurl'] ? $data['sourceurl'] : ($data['variablesource'] ? $data['variablesource'] : false)));
-                    } elseif (($data['variablesource'] || $data['sourceurl']) && !$data['sourcealias'] && !$data['sourcedefault']) {
-//                        dd("Choice 3");
-                        $sourcealias = "unnamed" . $this->getUnnamedNumber();
-                        $actualsource = $data['variablesource'];
-//                            $this->mounted_sources[$sourcealias] = new globalVariablesSource($sourcealias, $data['variablesource']);
-                    } elseif (($data['variablesource'] || $data['sourceurl']) && $data['sourcealias'] && $data['sourcedefault']) {
-//                        dd("Choice 4");
-//                        $sourcealias = $data['sourcealias'];
-                        $sourcealias = GV_SOURCE_DEFAULT;
-                        $actualsource = $data['variablesource'];
-//                            $this->mounted_sources[$sourcealias] = new globalVariablesSource($sourcealias, $data['variablesource']);
-//                            $this->mounted_sources[$sourcealias]->mountSource();
-//                        dd($this->mounted_sources);
-                    } else {
-//                        dd("Choice none");
-                    }
-
-                    if ($sourcealias) {
-                        if ($this->loadSourceFromCache($sourcealias, $actualsource, $data)) {
-                            
+                $source = new globalVariablesSourceConfig($data);
+                if ($source->isActive()) {
+                    if ($source->getAlias()) {
+                        if ($this->isSourceCacheUpToDate($source)) {
+                            $this->mounted_sources[$source->getAlias()] = $this->loadSourceFromCache($source);
                         } else {
-                            $this->mounted_sources[$sourcealias] = $this->loadDataFreshFromSource($sourcealias, $actualsource);
+                            $this->mounted_sources[$source->getAlias()] = $this->loadFreshFromSource($source);
                         }
+                        $this->mounted_sources[$source->getAlias()]->mountSource();
                     }
                 }
             }
         }
+//        dd($this->mounted_sources);
     }
 
-    private function loadDataFreshFromSource($alias, $source)
+    private function getCacheFileName(globalVariablesSourceConfig $source)
     {
-        $data = new globalVariablesSource($alias, $source);
+        preg_match('#[^/\\\]*$#is', $source->getSourceLocator(), $match);
+        $sourcekey = $match[0] . '-' . $source->getAlias();
+
+        $cachefile = preg_replace('/[^a-z0-9_-]/is', '', $sourcekey) . '_' . $source->hash() . '.serialized.cache';
+        return GV_CACHEPATH . "/" . $cachefile;
+    }
+
+    private function loadFreshFromSource(globalVariablesSourceConfig $source)
+    {
+//        $data = new globalVariablesSource($alias, $sourcekey);
+        $data = new globalVariablesSource($source->getAlias(), $source->getSourceLocator());
+
+        if ($source->getRevisitSeconds()) {
+            file_put_contents($this->getCacheFileName($source), serialize($data));
+        }
 
         return $data;
     }
 
-    private function loadSourceFromCache($alias, $source, $definition)
+    private function loadSourceFromCache(globalVariablesSourceConfig $source)
     {
+        return unserialize(file_get_contents($this->getCacheFileName($source)));
+    }
 
-        preg_match('#[^/\\\]*$#is',$source,$match);
-        $source = $match[0].'-'.$alias;
+    private function isSourceCacheUpToDate(globalVariablesSourceConfig $source)
+    {
+        if ($this->getParameter("caching")) {
+            return false;
+        }
 
-        $cachefile = preg_replace('/[^a-z0-9_-]/is','',$source).'_'.hash('md5',serialize($definition)).'.serialized.cache';
-        dd($definition);
-        dd(JPATH_CACHE);
-        dd(GV_CACHEPATH);
-        dd($cachefile);
+        $cachefile = $this->getCacheFileName($source);
+
         if (!is_dir(GV_CACHEPATH)) {
             mkdir(GV_CACHEPATH, 0777);
         }
 
-        if(file_exists($cachefile)){
-            dd(filemtime($cachefile));
-            $file_age = time() - filemtime($cachefile);
-            if($file_age > $definition["sourcerevisit"]){
-                dd("Refresh from Source");
+        if (file_exists($cachefile)) {
+            $file_age_in_seconds = time() - filemtime($cachefile);
+            if ($file_age_in_seconds > $source->getRevisitSeconds()) {
+//                dd("Refresh from Source");
                 return false;
             }
-            dd("Exists and is uptodate");
+//            dd("Exists and is uptodate");
             return true;
         }
 
-        dd("Does not exist -> build");
+//        dd("Does not exist -> build");
         return false;
-    }
-
-    private function getUnnamedNumber()
-    {
-        $unnamed_count = 1;
-        foreach (array_keys($this->mounted_sources) as $aliaskey) {
-            if (strpos("unnamed", $aliaskey) === 0) {
-                $unnamed_count++;
-            }
-        }
-        return $unnamed_count;
     }
 
     /**
@@ -847,6 +818,66 @@ class globalVariablesParseAdapterArray extends globalVariablesParseAdapterMaster
     private function parseStream($string)
     {
         return $string;
+    }
+
+}
+
+class globalVariablesSourceConfig
+{
+
+    public $active = false;
+    public $default = false;
+    public $alias = false;
+    public $articlesource = false;
+    public $urlsource = "";
+    public $revisit = 0;
+
+    public function __construct($data)
+    {
+        $this->active = (isset($data['sourceactive']) && $data['sourceactive'] ? true : false);
+        $this->default = (isset($data['sourcedefault']) && $data['sourcedefault'] ? true : false);
+        $this->alias = (isset($data['sourcealias']) ? $data['sourcealias'] : "");
+        $this->articlesource = (isset($data['variablesource']) ? $data['variablesource'] : false);
+        $this->urlsource = (isset($data['sourceurl']) ? $data['sourceurl'] : false);
+        $this->revisit = (isset($data['sourcerevisit']) ? $data['sourcerevisit'] : 0);
+    }
+
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    public function isDefault()
+    {
+        return $this->default;
+    }
+
+    public function getSourceLocator()
+    {
+        return ($this->urlsource ? $this->urlsource : ($this->articlesource ? $this->articlesource : false));
+    }
+
+    public function getAlias()
+    {
+        if ($this->isDefault() && !$this->alias) {
+            return GV_SOURCE_DEFAULT;
+        } elseif (!$this->isDefault() && $this->alias) {
+            return $this->alias;
+        } elseif (!$this->isDefault() && !$this->alias && $this->getSourceLocator()) {
+            return "unnamed_" . $this->hash();
+        } elseif ($this->isDefault() && $this->alias && $this->getSourceLocator()) {
+            return GV_SOURCE_DEFAULT;
+        }
+    }
+
+    public function getRevisitSeconds()
+    {
+        return $this->revisit * 60;
+    }
+
+    public function hash($type = "md5")
+    {
+        return hash($type, serialize($this));
     }
 
 }

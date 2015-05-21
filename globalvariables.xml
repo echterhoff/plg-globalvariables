@@ -106,7 +106,7 @@
                        select="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_BUTTON_LABEL"
                        label="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_TITLE"
                        description="JFIELD_PLG_GLOBALVARIABLES_SOURCECONFIGURATION_INFO"
-                       default='{"sourceactive":["1"],"sourcedefault":["1"],"sourcealias":[""],"variablesource":["0"],"sourceurl":[""]}'>
+                       default='{"sourceactive":["1"],"sourcedefault":["1"],"sourcealias":[""],"variablesource":["0"],"sourceurl":[""],"sourcerevisit":["0"]}'>
                     <fields name="params">
                         <fieldset hidden="true"
                                   name="sourceconfiguration_modal"
