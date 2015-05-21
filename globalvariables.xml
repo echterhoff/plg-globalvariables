@@ -7,7 +7,7 @@
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>info@echterhoff.it</authorEmail>
     <authorUrl>www.echterhoff.it</authorUrl>
-    <version>3.4.0dev</version>
+    <version>3.4.1.1-development</version>
     <description>
 		<![CDATA[
         <p><span style="color:red;font-weight:bold;">In order to properly configure this plugin it is absolutly mandatory to have it activated.</span><br>
@@ -266,6 +266,6 @@
         </fields>
     </config>
     <updateservers>
-        <server type="extension" name="globalvariables" priority="1">https://github.com/echterhoff/plg-globalvariables/raw/dev/globalvariables_update.xml</server>
+        <server type="extension" name="globalvariables" priority="1">https://github.com/echterhoff/plg-globalvariables/raw/development/globalvariables_update.xml</server>
     </updateservers>
 </extension>
