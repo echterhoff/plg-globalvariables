@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.4" type="plugin" group="content">
+<extension version="3.4" type="plugin" group="content" method="upgrade">
     <name>Content - Global Variables</name>
     <author>Lars Echterhoff</author>
     <creationDate>May 2015</creationDate>
