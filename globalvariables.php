@@ -87,6 +87,7 @@ class plgContentGlobalVariables extends JPlugin
     private $article;
     private $parameter = array();
     private $mounted_sources = null;
+    private $queried_tags = array();
 
     /**
      * Plugin constructor
@@ -110,6 +111,7 @@ class plgContentGlobalVariables extends JPlugin
         $this->parameter['direct_variable_input'] = $gv_params->get("direct_variable_input");
 
         $this->parameter['replace_variables_iteration_limit'] = $gv_params->get("replace_variables_iteration_limit");
+        $this->parameter['replace_same_variable_max'] = $gv_params->get("replace_same_variable_max");
 
         $this->parameter['caching'] = $gv_params->get("variable_caching");
 
@@ -308,12 +310,24 @@ class plgContentGlobalVariables extends JPlugin
 
         $block = new globalVariablesString($string);
         $replace_variables_iteration_limit = $this->getParameter("replace_variables_iteration_limit");
+        $replace_same_variable_max = $this->getParameter("replace_same_variable_max");
 
         $matches = array();
+        $this->queried_tags = array();
         while (preg_match($varmatch_rx, $block, $matches, PREG_OFFSET_CAPTURE)) {
             $match = new GlobalVariablesMatch($matches);
             $this->attachSourceTo($match);
+            if (!isset($this->queried_tags[$taghash = hash('md5', $match->variabletag)])) {
+                $this->queried_tags[$taghash] = 1;
+            } else {
+                $this->queried_tags[$taghash] ++;
+            }
+            if ($replace_same_variable_max && $this->queried_tags[$taghash] > $replace_same_variable_max) {
+                $match->stopReplacement();
+            }
+
             $this->execute_replacement($block, $match);
+//            $this->queried_tags[current(array_keys($this->queried_tags, max($this->queried_tags)))];
             if ((!isset($i) ? $i = 0 : $i++) > $replace_variables_iteration_limit) {
                 break;
             }
@@ -419,6 +433,7 @@ class globalVariablesMatch
     public $length = -1;
     public $language;
     public $source;
+    private $set_value_empty = false;
 
     /**
      *
@@ -477,6 +492,11 @@ class globalVariablesMatch
         }
     }
 
+    public function stopReplacement()
+    {
+        $this->set_value_empty = true;
+    }
+
     /**
      *
      * @return \globalVariablesMatch
@@ -503,6 +523,15 @@ class globalVariablesMatch
     }
 
     /**
+     * Returs the tag escaped and safe to show as string
+     * 
+     * @return string
+     */
+    public function getTagEscaped(){
+        return $this->escapeOpener($this->variabletag);
+    }
+
+    /**
      *
      * @param array $get
      * @param array $post
@@ -510,12 +539,21 @@ class globalVariablesMatch
      */
     public function getValue($get = array(), $post = array())
     {
+        if($this->set_value_empty){
+            if($this->plugin->getParameter("replace_variables_debug") === true){
+                return '<span class="alert alert-warning">Repeated to often "' . $this->source . '": ' . $this->escapeOpener($this->variabletag) . '</span>';
+            } else {
+                return "";
+            }
+        }
         if ($this->parameter->query && $this->plugin->getSource($this->source)->isQueryable()) {
             $post = array_replace_recursive($post, $this->parameter->parameters, array(
                 "_varname" => $this->varname,
                 "_language" => $this->language,
                 "_charset" => JFactory::getDocument()->getCharset(),
-                "_type" => JFactory::getDocument()->getType()
+                "_type" => JFactory::getDocument()->getType(),
+                "_tag" => $this->getTagEscaped()
+//                "_tag" => htmlentities($this->variabletag)
             ));
             return $this->plugin->processValue($this->plugin->getSource($this->source)->queryKey($this->varname, $get, $post));
         } elseif (!$this->parameter->query && $this->plugin->getSource($this->source) && $this->plugin->getSource($this->source)->hasKey($this->varname, $this->language)) {

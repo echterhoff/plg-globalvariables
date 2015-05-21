@@ -26,6 +26,7 @@
         <folder>language</folder>
         <folder>form</folder>
         <folder>css</folder>
+        <folder>sample-sources</folder>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.plg_content_globalvariables.ini</language>
@@ -230,9 +231,14 @@
                 />
                 <field name="replace_variables_iteration_limit" default="5000"
                        max="100000"
-                       min="1"
+                       min="1000"
                        type="number" label="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_ITERATION_LIMIT_LABEL"
-                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_ITERATION_LIMIT_DESC" value="1000" />
+                       description="JFIELD_PLG_GLOBALVARIABLES_VARIABLE_ITERATION_LIMIT_DESC" />
+                <field name="replace_same_variable_max" default="200"
+                       max="2000"
+                       min="10"
+                       type="number" label="JFIELD_PLG_GLOBALVARIABLES_REPLACE_SAME_VARIABLE_MAX_LABEL"
+                       description="JFIELD_PLG_GLOBALVARIABLES_REPLACE_SAME_VARIABLE_MAX_DESC" />
 
                 <field
                     name="note_variable_replace_behavior" class="span6 alert alert-error"
@@ -260,6 +266,6 @@
         </fields>
     </config>
     <updateservers>
-        <server type="extension" name="globalvariables" priority="1">https://github.com/echterhoff/plg-globalvariables/raw/master/globalvariables_update.xml</server>
+        <server type="extension" name="globalvariables" priority="1">https://github.com/echterhoff/plg-globalvariables/raw/dev/globalvariables_update.xml</server>
     </updateservers>
 </extension>
