@@ -115,7 +115,7 @@ class plgContentGlobalVariablesInstallerScript
             $rel = $this->release;
         }
 
-        echo '<p>' . JText::_('PLG_GLOBALVARIABLES_PREFLIGHT_' . strtoupper($route), $rel) . ' ' . $rel . '</p>';
+        echo '<p>' . JText::sprintf('PLG_GLOBALVARIABLES_PREFLIGHT_' . strtoupper($route), $rel) . ' ' . $rel . '</p>';
     }
 
     /**
