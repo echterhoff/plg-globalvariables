@@ -115,7 +115,7 @@ class plgContentGlobalVariablesInstallerScript
             $rel = $this->release;
         }
 
-        echo '<p>' . JText::_('PLG_GLOBALVARIABLES_PREFLIGHT_' . strtoupper($route)) . $rel . '</p>';
+        echo '<p>' . JText::_('PLG_GLOBALVARIABLES_PREFLIGHT_' . strtoupper($route)) . ' ' . $rel . '</p>';
     }
 
     /**
@@ -131,7 +131,7 @@ class plgContentGlobalVariablesInstallerScript
      */
     public function install(JAdapterInstance $adapter)
     {
-        echo '<p>' . JText::_('COM_DEMOCOMPUPDATE_INSTALL to ' . $this->release) . '</p>';
+//        echo '<p>' . JText::_('COM_DEMOCOMPUPDATE_INSTALL to ' . $this->release) . '</p>';
         // You can have the backend jump directly to the newly installed component configuration page
         // $adapter->getParent()->setRedirectURL('index.php?option=com_democompupdate');
     }
@@ -149,7 +149,7 @@ class plgContentGlobalVariablesInstallerScript
      */
     public function update(JAdapterInstance $adapter)
     {
-        echo '<p>' . JText::_('COM_DEMOCOMPUPDATE_UPDATE_ to ' . $this->release) . '</p>';
+//        echo '<p>' . JText::_('COM_DEMOCOMPUPDATE_UPDATE_ to ' . $this->release) . '</p>';
         // You can have the backend jump directly to the newly updated component configuration page
         // $adapter->getParent()->setRedirectURL('index.php?option=com_democompupdate');
     }
