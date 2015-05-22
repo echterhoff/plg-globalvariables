@@ -91,14 +91,14 @@ class plgContentGlobalVariablesInstallerScript
         $this->minimum_joomla_release = $adapter->get("manifest")->attributes()->version;
 
         // Show the essential information at the install/update back-end
-        echo '<p>Installing component manifest file version = ' . $this->release;
-        echo '<br />Current manifest cache commponent version = ' . $this->getParam('version');
-        echo '<br />Installing component manifest file minimum Joomla version = ' . $this->minimum_joomla_release;
-        echo '<br />Current Joomla version = ' . $jversion->getShortVersion();
+//        echo '<p>Installing component manifest file version = ' . $this->release;
+//        echo '<br />Current manifest cache commponent version = ' . $this->getParam('version');
+//        echo '<br />Installing component manifest file minimum Joomla version = ' . $this->minimum_joomla_release;
+//        echo '<br />Current Joomla version = ' . $jversion->getShortVersion();
 
         // abort if the current Joomla release is older
         if (version_compare($jversion->getShortVersion(), $this->minimum_joomla_release, 'lt')) {
-            Jerror::raiseWarning(null, 'Cannot install com_democompupdate in a Joomla release prior to ' . $this->minimum_joomla_release);
+            Jerror::raiseWarning(null, 'Cannot install Global Variables in a Joomla release prior to ' . $this->minimum_joomla_release);
             return false;
         }
 
@@ -106,8 +106,12 @@ class plgContentGlobalVariablesInstallerScript
         if ($route == 'update') {
             $oldRelease = $this->getParam('version');
             $rel = $oldRelease . ' to ' . $this->release;
-            if (version_compare($this->release, $oldRelease, 'le')) {
-                Jerror::raiseWarning(null, 'Incorrect version sequence. Cannot upgrade ' . $rel);
+            if (version_compare($this->release, $oldRelease, 'lt')) {
+                Jerror::raiseWarning(null, 'Cannot downgrade from ' . $rel);
+                return false;
+            }
+            elseif (version_compare($this->release, $oldRelease, 'eq')) {
+                Jerror::raiseWarning(null, $this->release.' is already installed.');
                 return false;
             }
         } else {
