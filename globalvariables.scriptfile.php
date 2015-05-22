@@ -1,5 +1,5 @@
 <?php
- 
+
 /**
  * @version  3.4
  * @Project  GLOABL VARIABLES
@@ -9,7 +9,6 @@
  * @license  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2
  * @description Installation script
  */
-
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
@@ -95,7 +94,6 @@ class plgContentGlobalVariablesInstallerScript
 //        echo '<br />Current manifest cache commponent version = ' . $this->getParam('version');
 //        echo '<br />Installing component manifest file minimum Joomla version = ' . $this->minimum_joomla_release;
 //        echo '<br />Current Joomla version = ' . $jversion->getShortVersion();
-
         // abort if the current Joomla release is older
         if (version_compare($jversion->getShortVersion(), $this->minimum_joomla_release, 'lt')) {
             Jerror::raiseWarning(null, 'Cannot install Global Variables in a Joomla release prior to ' . $this->minimum_joomla_release);
@@ -109,16 +107,15 @@ class plgContentGlobalVariablesInstallerScript
             if (version_compare($this->release, $oldRelease, 'lt')) {
                 Jerror::raiseWarning(null, 'Cannot downgrade from ' . $rel);
                 return false;
-            }
-            elseif (version_compare($this->release, $oldRelease, 'eq')) {
-                Jerror::raiseWarning(null, $this->release.' is already installed.');
+            } elseif (version_compare($this->release, $oldRelease, 'eq')) {
+                Jerror::raiseWarning(null, $this->release . ' is already installed.');
                 return false;
             }
         } else {
             $rel = $this->release;
         }
 
-        echo '<p>' . JText::_('COM_DEMOCOMPUPDATE_PREFLIGHT_' . $route . ' ' . $rel) . '</p>';
+        echo '<p>' . JText::_('PLG_GLOBALVARIABLES_PREFLIGHT_' . strtoupper($route)) . $rel . '</p>';
     }
 
     /**
@@ -157,37 +154,40 @@ class plgContentGlobalVariablesInstallerScript
         // $adapter->getParent()->setRedirectURL('index.php?option=com_democompupdate');
     }
 
+    /*
+     * get a variable from the manifest file (actually, from the manifest cache).
+     */
 
+    function getParam($name)
+    {
+        $db = JFactory::getDbo();
+        $db->setQuery('SELECT manifest_cache FROM #__extensions WHERE element = "globalvariables" AND type = "plugin"');
+        $manifest = json_decode($db->loadResult(), true);
+        return $manifest[$name];
+    }
 
-	/*
-	 * get a variable from the manifest file (actually, from the manifest cache).
-	 */
-	function getParam( $name ) {
-		$db = JFactory::getDbo();
-		$db->setQuery('SELECT manifest_cache FROM #__extensions WHERE element = "globalvariables" AND type = "plugin"');
-		$manifest = json_decode( $db->loadResult(), true );
-		return $manifest[ $name ];
-	}
+    /*
+     * sets parameter values in the component's row of the extension table
+     */
 
-	/*
-	 * sets parameter values in the component's row of the extension table
-	 */
-	function setParams($param_array) {
-		if ( count($param_array) > 0 ) {
-			// read the existing component value(s)
-			$db = JFactory::getDbo();
-			$db->setQuery('SELECT params FROM #__extensions WHERE element = "globalvariables" AND type = "plugin"');
-			$params = json_decode( $db->loadResult(), true );
-			// add the new variable(s) to the existing one(s)
-			foreach ( $param_array as $name => $value ) {
-				$params[ (string) $name ] = (string) $value;
-			}
-			// store the combined new and existing values back as a JSON string
-			$paramsString = json_encode( $params );
-			$db->setQuery('UPDATE #__extensions SET params = ' .
-				$db->quote( $paramsString ) .
-				' WHERE element = "globalvariables" AND type = "plugin"' );
-				$db->query();
-		}
-	}
+    function setParams($param_array)
+    {
+        if (count($param_array) > 0) {
+            // read the existing component value(s)
+            $db = JFactory::getDbo();
+            $db->setQuery('SELECT params FROM #__extensions WHERE element = "globalvariables" AND type = "plugin"');
+            $params = json_decode($db->loadResult(), true);
+            // add the new variable(s) to the existing one(s)
+            foreach ($param_array as $name => $value) {
+                $params[(string) $name] = (string) $value;
+            }
+            // store the combined new and existing values back as a JSON string
+            $paramsString = json_encode($params);
+            $db->setQuery('UPDATE #__extensions SET params = ' .
+                    $db->quote($paramsString) .
+                    ' WHERE element = "globalvariables" AND type = "plugin"');
+            $db->query();
+        }
+    }
+
 }
