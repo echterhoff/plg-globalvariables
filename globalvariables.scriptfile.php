@@ -101,6 +101,7 @@ class plgContentGlobalVariablesInstallerScript
         }
 
         // abort if the component being installed is not newer than the currently installed version
+        $oldRelease = "0.0.0";
         if ($route == 'update') {
             $oldRelease = $this->getParam('version');
             $rel = $oldRelease . ' to ' . $this->release;
