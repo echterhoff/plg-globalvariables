@@ -101,7 +101,6 @@ class plgContentGlobalVariablesInstallerScript
         }
 
         // abort if the component being installed is not newer than the currently installed version
-        $oldRelease = "0.0.0";
         if ($route == 'update') {
             $oldRelease = $this->getParam('version');
             $rel = $oldRelease . ' to ' . $this->release;
@@ -116,7 +115,7 @@ class plgContentGlobalVariablesInstallerScript
             $rel = $this->release;
         }
 
-        echo '<p>' . JText::sprintf('PLG_GLOBALVARIABLES_PREFLIGHT_' . strtoupper($route), $rel, $oldRelease) . '</p>';
+        echo '<p>' . JText::sprintf('PLG_GLOBALVARIABLES_PREFLIGHT_' . strtoupper($route), $rel, (isset($oldRelease)?$oldRelease:'unknown')) . '</p>';
     }
 
     /**
