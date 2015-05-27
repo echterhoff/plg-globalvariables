@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jedupdate version="1">
+	<core_body>
+This plugin enables you to reuse information snippets through your website.
+Think of infomation pieces like a phone number or a VAT-nr. As soon as you include these information in more than one content element (article/module) you have to remember where you used them every time they change.
+
+This is gone now! - Especially with this all new version.
+
+Simply create an article to store variables or use the build-in variable editor. To unflexible? Host your variables on your cloud storage and mount external resources as variable vault and if this is even not enought flexibility global variables now allowes you to create requests (POST/GET) for content including a resource specific cache setup/management.
+
+Defining a variable is as easy as writing it.
+
+myvar="stored piece of information"
+mail="mymail@domain.tld"
+
+Now place these information across your articles or modules using the simple and common curly bracket syntax.
+
+{{mail}} or {global}mail{/global} will resolve in your variable content while the information gets rendered.
+
+I hope you like it.
+
+If you have any requests or problems, don't hesitate to contact me.
+
+P.S. This version is for Joomla 3.4.1+ ONLY! Since there were several problemes with the "repeatable" config elements you should make sure you are on the latest Joomla version.
+	</core_body>
+
+	<!-- valid links only or leave blank -->
+	<homepage_link>https://github.com/echterhoff/plg-globalvariables</homepage_link>
+	<download_link>https://github.com/echterhoff/plg-globalvariables</download_link>
+	<demo_link></demo_link>
+	<documentation_link>https://github.com/echterhoff/plg-globalvariables/blob/master/README.md</documentation_link>
+	<support_link>https://github.com/echterhoff/plg-globalvariables/issues</support_link>
+	<license_link></license_link>
+	
+	<version>3.4.1.1</version>
+
+	<compatibility>
+		<version>34</version>
+	</compatibility>
+</jedupdate>
