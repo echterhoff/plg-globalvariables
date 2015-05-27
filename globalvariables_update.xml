@@ -5,7 +5,9 @@
         <description>Content - Global Variables</description>
         <element>globalvariables</element>
         <type>plugin</type>
+        <!--<folder>globalvariables</folder>-->
         <version>3.4.1.1</version>
+        <client>site</client>
         <infourl title="GlobalVariables">https://github.com/echterhoff/plg-globalvariables/</infourl>
         <tags>
             <tag>stable</tag>
@@ -13,27 +15,8 @@
         <downloads>
             <downloadurl type="full" format="zip">https://github.com/echterhoff/plg-globalvariables/archive/plg_globalvariables_j3.4_v3.4.1.1.zip</downloadurl>
         </downloads>
-        <maintainer>Joomla</maintainer>
+        <maintainer>Lars Echterhoff</maintainer>
         <maintainerurl>https://github.com/echterhoff/plg-globalvariables/</maintainerurl>
         <targetplatform name="joomla" version="3.4"/>
-        <client>site</client>
-    </update>
-    <update>
-        <name>Content - Global Variables</name>
-        <description>Content - Global Variables</description>
-        <element>globalvariables</element>
-        <type>plugin</type>
-        <version>3.4.1.2</version>
-        <infourl title="GlobalVariables">https://github.com/echterhoff/plg-globalvariables/</infourl>
-        <tags>
-            <tag>stable</tag>
-        </tags>
-        <downloads>
-            <downloadurl type="full" format="zip">https://github.com/echterhoff/plg-globalvariables/archive/plg_globalvariables_j3.4_v3.4.1.2.zip</downloadurl>
-        </downloads>
-        <maintainer>Joomla</maintainer>
-        <maintainerurl>https://github.com/echterhoff/plg-globalvariables/</maintainerurl>
-        <targetplatform name="joomla" version="3.4"/>
-        <client>site</client>
     </update>
 </updates>
