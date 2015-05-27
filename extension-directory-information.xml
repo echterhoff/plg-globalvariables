@@ -6,7 +6,7 @@ Think of infomation pieces like a phone number or a VAT-nr. As soon as you inclu
 
 This is gone now! - Especially with this all new version.
 
-Simply create an article to store variables or use the build-in variable editor. To unflexible? Host your variables on your cloud storage and mount external resources as variable vault and if this is even not enought flexibility global variables now allowes you to create requests (POST/GET) for content including a resource specific cache setup/management.
+Simply create an article to store variables or use the build-in variable editor. Too unflexible? Host your variables on your cloud storage or mount external resources as variable vault and if this is even not enought flexibility global variables now allowes you to create requests (POST/GET) for content including a resource specific cache setup/management.
 
 Defining a variable is as easy as writing it.
 
@@ -26,7 +26,7 @@ P.S. This version is for Joomla 3.4.1+ ONLY! Since there were several problemes 
 
 	<!-- valid links only or leave blank -->
 	<homepage_link>https://github.com/echterhoff/plg-globalvariables</homepage_link>
-	<download_link>https://github.com/echterhoff/plg-globalvariables</download_link>
+	<download_link>https://github.com/echterhoff/plg-globalvariables/archive/plg_globalvariables_j3.4_v3.4.1.1.zip</download_link>
 	<demo_link></demo_link>
 	<documentation_link>https://github.com/echterhoff/plg-globalvariables/blob/master/README.md</documentation_link>
 	<support_link>https://github.com/echterhoff/plg-globalvariables/issues</support_link>
