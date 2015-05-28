@@ -1,6 +1,6 @@
 ## Joomla Plugin Global Variables  (plg-globalvariables)
 
-<img src="https://raw.githubusercontent.com/echterhoff/plg-globalvariables/assets/icon.png" width="150" align="right">
+<img src="https://raw.githubusercontent.com/echterhoff/plg-globalvariables/master/assets/icon.png" width="150" align="right">
 ### Latest changes
  Complete rewritten from scratch.
  ...and since this is a complete rewrite I have cut compatibility and reduced the variable syntax to {{varname}} and {global}varname{/global} only. Please dont complain about that.
@@ -61,4 +61,4 @@ I hope you will find this tool as useful as me. If you got questions or problems
 Cheers Lars
 
 
-[logo]: https://raw.githubusercontent.com/echterhoff/plg-globalvariables/assets/icon.png "Joomla! Plugin - Global Variables"
+[logo]: https://raw.githubusercontent.com/echterhoff/plg-globalvariables/master/assets/icon.png "Joomla! Plugin - Global Variables"
