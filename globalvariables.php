@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version  3.4.1.3
+ * @version  3.4.1.4
  * @Project  GLOABL VARIABLES
  * @author   Lars Echterhoff
  * @package
