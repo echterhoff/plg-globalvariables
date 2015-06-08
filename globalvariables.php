@@ -513,6 +513,21 @@ class globalVariablesMatch
      * @param string $language
      * @return string
      */
+    private function hasKeyInSource($varname, $language)
+    {
+        if ($this->plugin->getSource(GV_SOURCE_INTERNAL)->hasKey($varname, $language)) {
+            return true;
+        } elseif ($this->plugin->getSource($this->source)->hasKey($varname, $language)) {
+            return true;
+        }
+    }
+
+    /**
+     *
+     * @param string $varname
+     * @param string $language
+     * @return string
+     */
     private function getKeyFromSource($varname, $language)
     {
         if ($this->plugin->getSource(GV_SOURCE_INTERNAL)->hasKey($varname, $language)) {
@@ -527,7 +542,8 @@ class globalVariablesMatch
      * 
      * @return string
      */
-    public function getTagEscaped(){
+    public function getTagEscaped()
+    {
         return $this->escapeOpener($this->variabletag);
     }
 
@@ -539,8 +555,8 @@ class globalVariablesMatch
      */
     public function getValue($get = array(), $post = array())
     {
-        if($this->set_value_empty){
-            if($this->plugin->getParameter("replace_variables_debug") === true){
+        if ($this->set_value_empty) {
+            if ($this->plugin->getParameter("replace_variables_debug") === true) {
                 return '<span class="alert alert-warning">Repeated to often "' . $this->source . '": ' . $this->escapeOpener($this->variabletag) . '</span>';
             } else {
                 return "";
@@ -556,7 +572,8 @@ class globalVariablesMatch
 //                "_tag" => htmlentities($this->variabletag)
             ));
             return $this->plugin->processValue($this->plugin->getSource($this->source)->queryKey($this->varname, $get, $post));
-        } elseif (!$this->parameter->query && $this->plugin->getSource($this->source) && $this->plugin->getSource($this->source)->hasKey($this->varname, $this->language)) {
+//        } elseif (!$this->parameter->query && $this->plugin->getSource($this->source) && $this->plugin->getSource($this->source)->hasKey($this->varname, $this->language)) {
+        } elseif (!$this->parameter->query && $this->plugin->getSource($this->source) && $this->hasKeyInSource($this->varname, $this->language)) {
             return $this->plugin->processValue($this->getKeyFromSource($this->varname, $this->language));
         }
 
@@ -727,12 +744,13 @@ class globalVariablesParse
         $parser = new $type();
         /* @var $parser globalVariablesParseAdapterMaster */
         $parser->setStream($stream);
-        $this->variables = $parser->getVariablesArray();
+//        $this->variables = $parser->getVariablesArray();
+        $this->variables = array_change_key_case($parser->getVariablesArray(), CASE_LOWER);
     }
 
     public function __isset($name)
     {
-        if (isset($this->variables[$name])) {
+        if (isset($this->variables[strtolower($name)])) {
             return true;
         }
     }
@@ -745,7 +763,7 @@ class globalVariablesParse
     public function get($name)
     {
         if ($this->__isset($name)) {
-            return $this->variables[$name];
+            return $this->variables[strtolower($name)];
         }
         return "";
     }
@@ -990,10 +1008,13 @@ class globalVariablesSource
             return $key;
         }
 
+        $key_language_simple = $key . '.' . substr($language,0,2);
         $key_language_extended = $key . '.' . $language;
 
         if ($this->variables && $this->variables->has($key) && $this->variables->has($key_language_extended)) {
             return $key_language_extended;
+        } elseif ($this->variables && $this->variables->has($key) && $this->variables->has($key_language_simple)) {
+            return $key_language_simple;
         } elseif ($this->variables && $this->variables->has($key) && !$this->variables->has($key_language_extended)) {
             return $key;
         }
