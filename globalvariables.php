@@ -568,7 +568,13 @@ class globalVariablesMatch
                 "_language" => $this->language,
                 "_charset" => JFactory::getDocument()->getCharset(),
                 "_type" => JFactory::getDocument()->getType(),
-                "_tag" => $this->getTagEscaped()
+                "_tag" => $this->getTagEscaped(),
+                "_userid" => JFactory::getUser()->get('id'),
+                "_username" => JFactory::getUser()->get('username'),
+                "_useremail" => JFactory::getUser()->get('email'),
+                "_isguest" => JFactory::getUser()->get('guest'),
+                "_userobject" => serialize(JFactory::getUser()),
+
 //                "_tag" => htmlentities($this->variabletag)
             ));
             return $this->plugin->processValue($this->plugin->getSource($this->source)->queryKey($this->varname, $get, $post));

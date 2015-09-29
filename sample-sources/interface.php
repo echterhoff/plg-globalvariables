@@ -2,7 +2,6 @@
 
 //This is a simple interface sample!
 
-var_dump($_REQUEST);
 
 if ($_REQUEST['_varname'] === 'test1') {
     if ($_REQUEST['_language'] === 'en-gb') {
@@ -11,6 +10,8 @@ if ($_REQUEST['_varname'] === 'test1') {
         echo 'Ergebnis zu "test1"';
     }
     exit;
+} elseif($_REQUEST['_varname'] === 'queryinfo'){
+    var_dump($_REQUEST);
 } else {
     echo 'Result for all other than test1';
 }
